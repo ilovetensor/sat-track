@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<table class="satellite">
+    <tr>
+        <th>NORAD ID</th>
+        <th>Name</th>
+        <th>Launch Date</th>
+        <th>Launch Site</th>
+        <th>Status</th>
+        <th>Orbit Type</th>
+        <th>Swath [km]</th>
+        <th>Tilt Type</th>
+        <th>Tilt Value</th>
+    </tr>
+{% for sat in satellite_list %}
+
+    <tr class="t_item">
+        <td>{{ sat.norad_id }}</td>
+        <td><a href="{% url 'detail_view' sat.norad_id %}">{{ sat.name }}</a></td>
+        <td>{{ sat.launch_date }}</td>
+        <td>{{ sat.launch_site }}</td>
+        <td>{{ sat.status }}</td>
+        <td>{{ sat.orbit }}</td>
+        <td>{{ sat.swath }}</td>
+        <td>{{ sat.tilt_type }}</td>
+        <td>{{ sat.tilt_value }}</td>
+        
+    </tr>
+   
+{% endfor %}
+</table>
+{% endblock content %}

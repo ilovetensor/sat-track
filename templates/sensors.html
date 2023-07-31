@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h3 class="sat-name">{{ satellite.name }}</h3>
+  <div class="satellite_details">
+    
+    <ul class="sat-data">
+      <li>norad id: {{ satellite.norad_id }}</li>
+      <li>norad id: 23442</li>
+      <li>norad id: 23442</li>
+      <li>norad id: 23442</li>
+      <li>norad id: 23442</li>
+      <li>norad id: 23442</li>
+
+    </ul>
+    <div class="sat-tle">
+      <h4>TLE :</h4>
+      <div class="tle">{{ satellite.tle }}</div>
+      <div class="last-fetch" ><b>Last fetch date: </b> {{ satellite.last_tle_update }}</div>
+      <button id="fetch_tle" type="button">Fetch Again 🐶</button>
+    </div>
+  </div>
+  <div class="sensors">
+    <h4 class="sensor_head">Available Sensors :</h6>
+   
+    <table class="t3">
+      <tr>
+        <th>Select</th><th>Name</th><th>Resolution Type</th><th>Resolution [m]</th><th>swath [km]</th><th>Tilting type</th><th>Positive Tilt</th><th>Negative Tilt</th>
+      </tr>
+      {% for sensor in sensors %}
+      <tr>
+        <td><input type="radio" name="sensor" id="0" value="{{ sensor.name }}" checked="checked"></td>
+        <td>{{ sensor.name }}</td>
+        <td>{{ sensor.resolution_type }}</td>
+        <td>{{ sensor.resolution_value }}</td>
+        <td>{{ sensor.swath }}</td>
+        <td>{{ sensor.tilting_type }}</td>
+        <td>{{ sensor.positive_tilting }}</td>
+        <td>{{ sensor.negative_tilting }}</td>
+
+      </tr>
+      {% endfor %}
+      
+    </table>
+    <button onclick="get_tracking()">Tack 🚀</button>
+
+  </div>
+
+  <script>
+    function get_tracking(){
+        
+            var ele = document.getElementsByName('sensor');
+ 
+            for (i = 0; i < ele.length; i++) {
+                if (ele[i].checked){
+                   
+                    window.location.href = "{% url 'detail_view' satellite.norad_id %}" + `/${ele[i].value}`
+                }
+            }
+        
+    }
+  </script>
+
+<style>
+    .sat-tle{
+        width: 680px;
+    }
+    .satellite_details{
+      display: flex;
+      justify-content: space-between;
+      padding: 0px 30px;
+    }
+    .sat-data li{
+      padding: 5px;
+    }
+    .sat-tle *{
+      padding: 5px;
+    }
+    .sat-tle{
+      padding-right: 50px;
+    }
+
+    button{
+      margin: 10px;
+      background-color: #ffc600;
+      color: rgb(0, 9, 86);
+      font-weight: 600;
+      border-radius: 40px;
+      padding: 5px 10px;
+      box-shadow: 0px 1px 5px 3px rgba(0,0,0,0.12);
+    }
+    button:hover {
+      color: black;
+      background-color: #ffcd1a;
+      
+    }
+    button:active {
+      
+      scale: 0.99;
+    
+    }
+    .t3{
+      padding: 10px;
+      margin: 10px 40px;
+    }
+    .t3 th{
+      font-weight: 400;
+    }
+    .t3 th, .t3 td {
+      border-bottom : 1px solid black;
+      padding: 5px 10px;
+    }
+    .sensors{
+      padding: 30px;
+    }
+</style>
+{% endblock content %}
+

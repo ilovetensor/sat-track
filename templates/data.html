@@ -1,0 +1,10 @@
+{% for key, value in data.items %}
+<p>
+      <li>{{ key }}</li>
+      {% for name, args in value.items %}
+            <div>{{ name }} == {{ args }}</div>
+      {% endfor %}
+</p>
+{% endfor %}
+
+

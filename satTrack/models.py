@@ -69,6 +69,3 @@ class Satellite(models.Model):
         self.tle, self.last_tle_update = get_tle_from_n2yo(self.norad_id)
         super().save(*args, **kwargs)
     
-
-
-    

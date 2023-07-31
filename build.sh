@@ -1,5 +1,4 @@
 echo "BUILD START"
-set -o errexit
 pip install --upgrade pip
 pip3 install -r requirements.txt
 python manage.py collectstatic --no-input

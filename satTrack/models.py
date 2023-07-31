@@ -24,7 +24,7 @@ class Sensor(models.Model):
     resolution_type = models.CharField('Resolution Type', max_length=30, default='-')
     resolution_value = models.FloatField('Resolution [m]', default=0)
     swath = models.FloatField('Swath [km]', default=0)
-    tilting_type = models.CharField('Tilting Type', max_length=20, default='-')
+    
     positive_tilting = models.FloatField('Positive Tilting', default=0)
     negative_tilting = models.FloatField('Negative Tilting', default=0)
 
@@ -40,7 +40,6 @@ TILT_CHOICES = (('ROLL', 'ROLL'),
 class Satellite(models.Model):
     norad_id = models.IntegerField('NORAD ID', primary_key=True)
     name = models.CharField('Satellite Name', max_length=20)
-    manufacturer = models.CharField('Manufacturer', max_length=15, default='-')
     satellite_type = models.CharField('Satellite type', max_length=30, default='-')
 
     description = models.TextField('About Satellite', default='-')

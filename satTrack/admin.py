@@ -3,8 +3,8 @@ from .models import Satellite, Sensor
 # Register your models here.
 
 # Register your models here.
-class SatelliteAdmin(admin.ModelAdmin):
-  list_display = ("name", "norad_id", "launch_date","launch_site","status","orbit","swath",)
+# class SatelliteAdmin(admin.ModelAdmin):
+#   list_display = ("name", "norad_id", "launch_date","launch_site","status","orbit","swath",)
 
 
 admin.site.register(Satellite, SatelliteAdmin)

@@ -42,6 +42,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'satTrack',
+
+    # third-party-apps
+    'django-crontab',
+]
+
+CRONJOBS = [
+    ('* * * * *', 'satTrack.cron.my_cron_job')
 ]
 
 MIDDLEWARE = [

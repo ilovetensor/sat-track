@@ -12,3 +12,4 @@ python-dotenv
 decouple
 dj-database-url
 gunicorn
+django-crontab

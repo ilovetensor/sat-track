@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'satTrack',
 
     # third-party-apps
-    'django-crontab',
+    'django_crontab',
+    
 ]
 
 CRONJOBS = [

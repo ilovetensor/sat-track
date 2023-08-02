@@ -44,9 +44,9 @@ class Satellite(models.Model):
 
     description = models.TextField('About Satellite', default='-')
     tle_now = models.TextField("Satellite Tle" ,default='', editable=False)
-    launch_date = models.DateField('Launch Date', default=datetime.now())
+    launch_date = models.DateField('Launch Date', default=datetime(2023, 8,2, 2,2,2,2))
     launch_site = models.CharField('Launch Site', max_length=50, default='not provided')
-    last_tle_update = models.DateField('Launch Date', default=datetime.now(),editable=False)
+    last_tle_update = models.DateField('Launch Date', default=datetime(2023, 8,2, 2,2,2,2),editable=False)
     swath = models.FloatField('Swath [km]', default=0)
     status = models.CharField('Status',max_length=20, choices = STATUS_CHOICES, default='IN ORBIT')
     # resolution_type = models.CharField('Resolution Type',max_length=30, default="")
@@ -91,7 +91,7 @@ class Satellite(models.Model):
 class TLE(models.Model):
     satellite = models.ForeignKey(to=Satellite, on_delete=models.CASCADE, editable=False)
     tle = models.TextField("Satellite Tle " ,max_length=100,default='', editable=False)
-    date_added = models.DateTimeField('Fech datetime', default=datetime.now(), editable=False)
+    date_added = models.DateTimeField('Fech datetime', default=datetime(2023, 8,2, 2,2,2,2), editable=False)
 
 
     def __str__(self):

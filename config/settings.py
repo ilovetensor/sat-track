@@ -48,9 +48,7 @@ INSTALLED_APPS = [
     
 ]
 
-CRONJOBS = [
-    ('* * * * *', 'satTrack.cron.my_cron_job')
-]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -140,5 +138,5 @@ STATIC_ROOT  =   os.path.join(PROJECT_ROOT, 'staticfiles')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CRONJOBS = [
-    ('* * * * *', 'config.cron.my_cron_job')
+    ('*/1 * * * *', 'satTrack.cron.my_cron_job')
 ]

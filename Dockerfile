@@ -9,8 +9,8 @@ RUN pip install --upgrade pip
 RUN apt-get update && apt-get -y install cron
 RUN pip install -r requirements.txt 
 
-RUN manage.py crontab add
-RUN manage.py crontab show
+RUN python manage.py crontab add
+RUN python manage.py crontab show
 
 EXPOSE 8000
 

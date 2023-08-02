@@ -1,2 +1,7 @@
+from .models import Satellite
+
 def my_cron_job():
-    print("#==="*10)
+    objects = Satellite.objects.all()
+    for object in objects:
+        object.save()
+

@@ -49,7 +49,7 @@ INSTALLED_APPS = [
 ]
 
 CRONJOBS = [
-    ('* * * * *', 'satTrack.cron.my_cron_job')
+    ('* * * * *', 'config.cron.my_cron_job')
 ]
 
 MIDDLEWARE = [

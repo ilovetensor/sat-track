@@ -6,9 +6,9 @@ COPY . .
 
 # install dependencies  
 RUN pip install --upgrade pip
-
+RUN apt-get update && apt-get -y install cron
 RUN pip install -r requirements.txt 
-RUN apt-get install -y cron 
+
 RUN python manage.py collectstatic --no-input 
 RUN python manage.py makemigrations --no-input
 RUN manage.py migrate 

@@ -43,7 +43,7 @@ class Satellite(models.Model):
     satellite_type = models.CharField('Satellite type', max_length=30, default='-')
 
     description = models.TextField('About Satellite', default='-')
-    tle = models.TextField("Satellite Tle" ,default='', editable=False)
+    tle_now = models.TextField("Satellite Tle" ,default='', editable=False)
     launch_date = models.DateField('Launch Date', default=datetime.now())
     launch_site = models.CharField('Launch Site', max_length=50, default='not provided')
     last_tle_update = models.DateField('Launch Date', default=datetime.now(),editable=False)

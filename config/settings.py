@@ -49,7 +49,7 @@ INSTALLED_APPS = [
 ]
 
 CRONJOBS = [
-    ('* * * * *', 'config.cron.my_cron_job')
+    ('* * * * *', 'satTrack.cron.my_cron_job')
 ]
 
 MIDDLEWARE = [
@@ -138,3 +138,7 @@ STATIC_ROOT  =   os.path.join(PROJECT_ROOT, 'staticfiles')
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CRONJOBS = [
+    ('* * * * *', 'config.cron.my_cron_job')
+]

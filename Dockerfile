@@ -1,8 +1,20 @@
-FROM continuumio/anaconda3
+FROM python:3.9
 COPY . /user/app 
-EXPOSE 5000
+
 WORKDIR /user/app
-RUN pip install -r requirements.txt && \ 
-    apt update && apt install -y libsm6 libxext6 
-CMD docker run --network host ...
-CMD streamlit run main.py --server.port $PORT
+COPY . .
+
+# install dependencies  
+RUN pip install --upgrade pip
+
+RUN pip install -r requirements.txt 
+RUN apt-get install -y cron 
+RUN python manage.py collectstatic --no-input 
+RUN python manage.py makemigrations --no-input
+RUN manage.py migrate 
+RUN manage.py crontab add
+RUN manage.py crontab show
+
+EXPOSE 8000
+
+CMD ("python", "manage.py", "runserver")

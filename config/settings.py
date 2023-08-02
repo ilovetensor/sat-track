@@ -87,7 +87,7 @@ CSRF_TRUSTED_ORIGINS = ['https://orbit-way.onrender.com']
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 
-DATABASES = {'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))}
+DATABASES = {'default': dj_database_url.parse('postgres://satellite_data_7tcv_user:H6mD4KiJnnPJ6WxM6fp1OgUXoeZigxEI@dpg-cj4uhdpitvpc73f464qg-a.oregon-postgres.render.com/satellite_data_7tcv')}
 # postgres://satellite_data_7tcv_user:H6mD4KiJnnPJ6WxM6fp1OgUXoeZigxEI@dpg-cj4uhdpitvpc73f464qg-a.oregon-postgres.render.com/satellite_data_7tcv
 # DATABASES = {
 #     'default': {

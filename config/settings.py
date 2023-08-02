@@ -88,7 +88,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 
 DATABASES = {'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))}
-
+# postgres://satellite_data_7tcv_user:H6mD4KiJnnPJ6WxM6fp1OgUXoeZigxEI@dpg-cj4uhdpitvpc73f464qg-a.oregon-postgres.render.com/satellite_data_7tcv
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',

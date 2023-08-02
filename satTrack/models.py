@@ -13,18 +13,18 @@ def get_tle_from_n2yo(id):
         f'{API_URL}tle/{id}',
         params=params
     ).json()
-    
-    return (r['tle'])
+    last_tle_update = datetime.now().date()
+    return (r['tle'], last_tle_update)
 
 STATUS_CHOICES = (( 'active','ACTIVE'),
                   ('not_tracked','NOT TRACKED'))
 
 class Sensor(models.Model):
     name = models.CharField('Sensor Name', max_length=20)
-    resolution_type = models.CharField('Resolution Type', max_length=30, default='')
+    resolution_type = models.CharField('Resolution Type', max_length=30, default='resolution')
     resolution_value = models.FloatField('Resolution [m]', default=0)
     swath = models.FloatField('Swath [km]', default=0)
-    tilting_type = models.CharField('Tilting Type', max_length=20, default='')
+    
     positive_tilting = models.FloatField('Positive Tilting', default=0)
     negative_tilting = models.FloatField('Negative Tilting', default=0)
 
@@ -40,10 +40,10 @@ TILT_CHOICES = (('ROLL', 'ROLL'),
 class Satellite(models.Model):
     norad_id = models.IntegerField('NORAD ID', primary_key=True)
     name = models.CharField('Satellite Name', max_length=20)
-    manufacturer = models.CharField('Manufacturer', max_length=15, default='-')
     satellite_type = models.CharField('Satellite type', max_length=30, default='-')
+
     description = models.TextField('About Satellite', default='-')
-    tle_now = models.TextField("Satellite Tle" ,default='', editable=False)
+    tle = models.TextField("Satellite Tle" ,default='', editable=False)
     launch_date = models.DateField('Launch Date', default=datetime.now())
     launch_site = models.CharField('Launch Site', max_length=50, default='not provided')
     last_tle_update = models.DateField('Launch Date', default=datetime.now(),editable=False)
@@ -58,6 +58,7 @@ class Satellite(models.Model):
     apogee = models.FloatField('Apogee', default=0)
     sensors = models.ManyToManyField(Sensor)
     max_saved_tle = 10
+
 
     def remove_from_set(self, query_set, items):
         for obj in query_set[:items]:
@@ -86,8 +87,7 @@ class Satellite(models.Model):
     def save(self, *args, **kwargs):
         self.save_new_tle()
         super().save(*args, **kwargs)
-    
-
+   
 class TLE(models.Model):
     satellite = models.ForeignKey(to=Satellite, on_delete=models.CASCADE, editable=False)
     tle = models.TextField("Satellite Tle " ,max_length=100,default='', editable=False)

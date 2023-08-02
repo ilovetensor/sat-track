@@ -9,9 +9,6 @@ RUN pip install --upgrade pip
 RUN apt-get update && apt-get -y install cron
 RUN pip install -r requirements.txt 
 
-
-RUN python manage.py makemigrations --no-input
-RUN manage.py migrate 
 RUN manage.py crontab add
 RUN manage.py crontab show
 

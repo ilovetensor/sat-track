@@ -1,0 +1,15 @@
+version :'3.8'
+services:
+  app:
+    build: .
+    volumes:
+      - .:/user/app
+    poorts:
+      - 8000:8000
+    image: app:django
+    container_name: django_container
+    command: python manage.py runserver 0.0.0.0:8000
+  
+  cron:
+    build: .
+    command: cron -f

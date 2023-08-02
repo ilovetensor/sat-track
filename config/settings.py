@@ -81,7 +81,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'config.wsgi.application'
-
+CSRF_TRUSTED_ORIGINS = ['https://orbit-way.onrender.com']
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases

@@ -31,9 +31,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*',]
 
-import mimetypes
-mimetypes.add_type("text/css", ".css", True)
-
 # Application definition
 
 INSTALLED_APPS = [

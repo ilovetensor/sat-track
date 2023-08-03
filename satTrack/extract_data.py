@@ -72,8 +72,8 @@ def line2_data(line2, save_dict):
     save_dict['RAAN'] = line2[17: 25]
     save_dict['longitude_of_ascending_node'] = round((float(save_dict['RAAN']) * np.pi)/180, 2)
     save_dict['eccentricity'] = '0.'+line2[26: 33]
-    save_dict['argument of perigee'] = line2[34: 41]
-    save_dict['argument_of_periapsis'] = round((float(save_dict['argument of perigee']) * np.pi)/180, 2)
+    save_dict['argument_of_perigee'] = line2[34: 41]
+    save_dict['argument_of_periapsis'] = round((float(save_dict['argument_of_perigee']) * np.pi)/180, 2)
     save_dict['mean_anomaly']= line2[43: 50]
     save_dict['mean_motion']= line2[52: 63]
     save_dict['semi_major_axis']= cal_semi_major_axis(float(save_dict['mean_motion']))
@@ -118,7 +118,9 @@ def get_geodetic_coordinates(SATELLITE, time):
 
 
 def get_live_data(TLE, cur_loc):
+    
     SATELLITE, ts = load_satellite(TLE)
+    
     time = ts.now()
     alt, az, distance, ra, dec = get_azimuth_altitude_distance_ra_dec(SATELLITE, time, cur_loc)
 

@@ -74,11 +74,13 @@ class Satellite(models.Model):
         tle_fetched = get_tle_from_n2yo(self.norad_id)
         if tle_fetched == self.tle_now:
             print("TLE NOT UPDATED NOW !")
+            return
         else:
             object = TLE(satellite=self, tle = tle_fetched, date_added = datetime.now())
             object.save()
-        self.tle_now = tle_fetched
-        self.last_tle_update = datetime.now()
+            self.tle_now = tle_fetched
+            self.last_tle_update = datetime.now()
+        
 
     def __str__(self):
         return self.name

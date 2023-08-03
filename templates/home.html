@@ -1,6 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
   <meta charset="utf-8">
   <!-- Include the CesiumJS JavaScript and CSS files -->
   <script src="https://cesium.com/downloads/cesiumjs/releases/1.107.1/Build/Cesium/Cesium.js"></script>
@@ -8,109 +9,86 @@
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
   <link rel="shortcut icon" href="#">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  
   <link href="https://cesium.com/downloads/cesiumjs/releases/1.107.1/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
-</head>
+
+{% endblock head %}
+
+{% block content %}
 <body>
 
-  <div class="navbar">
-    <ul class="nav-list">
-        <li class="logo"><h2> <a href="{% url 'list_view' %}">satTrack 🪨</a> </h1></li>
-        <li>contact us</li>
-        <li>search for satellite</li>
-    </ul>
-</div>
-<div class="main-block">
-    <div id="cesiumContainer"></div>
-    <table class="t1">
+  <div style="background: #e3f2fd; height: 90vh;">
+    <div class="main-block">
+      <div id="cesiumContainer"></div>
+      <table class="t1" style="border: 1px solid green;margin: 15px;">
         <tr>
-            <td>NORAD ID:</td> <td>{{ satellite.norad_id }}</td>
-        </tr>
-        <tr>
-            <td>UTC:</td>  <td id="utc">--</td>
-        </tr>
-        <tr>
-            <td>LATITUDE:</td> <td id="lat">--</td>
-        </tr>
-        <tr>
-            <td>LONGITUDE</td> <td id="lon">--</td>
-        </tr>
-        <tr>
-            <td>ALTITUDE [km]:</td> <td  id="h">--</td>
-        </tr>
-        <tr>
-            <td>SPEED [km/s]:</td> <td id="speed">--</td>
-        </tr>
-        <tr>
-            <td>AZIMUTH:</td> <td id="az">--</td>
-        </tr>
-        <tr>
-            <td>ELEVATION:</td> <td id="ele">--</td>
-        </tr>
-        <tr>
-            <td>RIGHT ASCENSION:</td> <td id="ra">--</td>
-        </tr>
-        <tr>
-          <td>DECLINATION:</td> <td id="dec">--</td>
-        </tr>
-    </table>
-</div>
-<div class="sat-details">
-    <div class="sat-name">{{ satellite.name }}</div>
-    <div class="description">{{ satellite.description }}</div>
-    <table class="t2">
-    <tr>
-        <td>Satellite Name</td>
-        <td>{{ satellite.name }}</td>
-    </tr>
-    <tr>
-        <td>Status</td>
-        <td>IN ORBIT</td>
-    </tr>
-    <tr>
-        <td>Orbit</td>
-        <td>--</td>
-    </tr>
-    <tr>
-        <td>Launch Year</td>
-        <td>{{ data.launch_year }}</td>
-    </tr>
-    <tr>
-        <td>Life</td>
-        <td>--</td>
-    </tr>
-    <tr>
-        <td>Swath</td>
-        <td>{{ sensor.swath }}</td>
-    </tr>
-    <tr>
-        <td>Inclination</td>
-        <td>{{ data.inclination }}</td>
-    </tr>
-    <tr>
-        <td>Eccentricity</td>
-        <td>{{ data.eccentricity }}</td>
-    </tr>
-    <tr>
-        <td>Semi Major Axis</td>
-        <td>{{ data.semi_major_axis }}</td>
-    </tr>
-    <tr>
-        <td>Inclination</td>
-        <td>{{ data.inclination }}</td>
-    </tr>
-    <tr>
-        <td>Period</td>
-        <td>{{ data.period }}</td>
-    </tr>
-    
-    </table>
-    <h4>TLE: </h4>
-    <div>{{ data.L1|safe }}</div>
-    <div>{{ data.L2|safe }}</div>
-    <div>Last TLE update Date: {{ satellite.last_tle_update }}</div>
-</div>
-<button onclick="getLocation();">Get My Location</button>
-
+          <td style="font-weight: bold;">NORAD ID:</td>
+          <td>{{ satellite.norad_id }}</td>
+          </tr>
+          <tr>
+          <td style="font-weight: bold;">UTC:</td>
+          <td id="utc">--</td>
+          </tr>
+          <tr>
+          <td style="font-weight: bold;">LATITUDE:</td>
+          <td id="lat">--</td>
+          </tr>
+          <tr>
+          <td style="font-weight: bold;">LONGITUDE</td>
+          <td id="lon">--</td>
+          </tr>
+          <tr>
+          <td style="font-weight: bold;">ALTITUDE [km]:</td>
+          <td id="h">--</td>
+          </tr>
+          <tr>
+          <td style="font-weight: bold;">SPEED [km/s]:</td>
+          <td id="speed">--</td>
+          </tr>
+          <tr>
+          <td style="font-weight: bold;">AZIMUTH:</td>
+          <td id="az">--</td>
+          </tr>
+          <tr>
+          <td style="font-weight: bold;">ELEVATION:</td>
+          <td id="ele">--</td>
+          </tr>
+          <tr>
+          <td style="font-weight: bold;">RIGHT ASCENSION:</td>
+          <td id="ra">--</td>
+          </tr>
+          <tr>
+          <td style="font-weight: bold;">DECLINATION:</td>
+          <td id="dec">--</td>
+          </tr>
+      </table>
+    </div>
+  
+    <div style="display: flex;gap: 10px;">
+      <select id="select_box" class="select-box" >
+        {% for tle_value in tle_list %}
+          <option value="{{tle_value.id}}">{{ tle_value }}</option>
+        {% endfor %}
+      </select>
+      <!-- <div class="show-footprint">Show Footprint</div> -->
+    </div>
+    <div style="display: flex;justify-content: space-between;">
+      <div>
+        <p style="font-weight: bold;">Difference between Latest tle and 7 hours before tle</p>
+        <ul>
+          <li>Latitue Difference : <span id="LAT"></span></li>
+          <li>Longitude Difference : <span id="LON"></span></li>
+          <li>Altitude Difference : <span id="ALT"></span></li>
+        </ul>
+      </div>
+      <div style="background-color:#fff;padding: 10px;margin-right: 10px;">
+        <h3 style="font-size: 18px;">Your current location</h3>
+        <div style="font-size: 20px;">Latitude : <span>26.91667°</span></div>
+        <div style="font-size: 20px;">Longitude : <span>75.81667°</span></div>
+      </div>
+    </div>
+    </div>
+  
   
   <script type="module">
     
@@ -122,6 +100,7 @@
 
     // fetch live data from server
     function get_live_data() {
+      console.log(cur_loc.lat)
       const div_data_lat = document.getElementById('lat');
       const div_data_lon = document.getElementById('lon');
       const div_data_height = document.getElementById('h');
@@ -131,12 +110,31 @@
       const div_data_ra = document.getElementById('ra');
       const div_data_dec = document.getElementById('dec');
       const div_data_speed = document.getElementById('speed');
-      //console.log(cur_loc);
+
+      const li_data_lat = document.getElementById('LAT');
+      const li_data_lon = document.getElementById('LON');
+      const li_data_height = document.getElementById('ALT');
+
+      const tle_compare_id = document.getElementById('select_box').value;
+      console.log(tle_compare_id)
+     
+      var ps = viewer.entities.add({
+        position: new Cesium.Cartesian3.fromDegrees(cur_loc.lon,cur_loc.lat ),
+        point: {
+          pixelSize: 6,
+          color: Cesium.Color.RED,
+        }
+      });
+      var passed_data = {"cur_loc_lat": cur_loc.lat, "cur_loc_lon": cur_loc.lon, }
+      if (tle_compare_id ){
+        passed_data['compare_tle']= tle_compare_id
+      };
+
       $.ajax({
         url: "{% url 'data' satellite.norad_id %}",
         type: "GET",
         dataType: "json",
-        data: {"cur_loc_lat": cur_loc.lat, "cur_loc_lon": cur_loc.lon},
+        data: passed_data,
         success: (data) => {
           div_data_lat.innerHTML = `${data.context.lat}`;
           div_data_lon.innerHTML = `${data.context.lon}`;
@@ -147,6 +145,10 @@
           div_data_ra.innerHTML = `${data.context.ra}`;
           div_data_dec.innerHTML = `${data.context.dec}`;
           div_data_speed.innerHTML =  `${data.context.speed}`;
+
+          li_data_lat.innerHTML = `${(data.difference.lat ).toFixed(4)}°`;
+          li_data_lon.innerHTML = `${(data.difference.lon ).toFixed(4)}°`;
+          li_data_height.innerHTML = `${(data.difference.height ).toFixed(4)} km`;
           // console.log(data.context);
         },
         error: (error) => {
@@ -155,6 +157,7 @@
       });
 
     }
+    
 
     // fetch data over timeline
     function get_data_buffer() {
@@ -260,9 +263,12 @@
     });
 
 
+
+
     // fetching live data from server 
     const div_data = document.getElementById('data');
     const timeID = setInterval(get_live_data, 1000);
+    console.log(cur_loc.lat)
 
     // Set the camera to follow the satellite 
     // viewer.trackedEntity = orbit; 
@@ -312,100 +318,525 @@
     const errorCallback = (error) => {
       console.log(error);
     };
+
+    {% comment %} =============================================================== {% endcomment %}
+    
+
+var footPrintIntervalIDs = []
+var satelliteNameIntervalIDMap = {}
+var previousPointsOffNadirPoints = {};
+var globalFootPrintCollectionArray = [];
+const instrument = {'off_nadir_angle': 25, 'off_nadir_direction':0, 'swath_width': 17000, 'resolution': 0.28, 'speed': 7000};
+
+function getGroundCartesian(cartesian){
+
+  var cartographic = Cesium.Cartographic.fromCartesian(cartesian);
+  var longitude = Cesium.Math.toDegrees(cartographic.longitude);
+  var latitude = Cesium.Math.toDegrees(cartographic.latitude);
+
+  var groundCartesian = Cesium.Cartesian3.fromDegrees(longitude, latitude);	
+  return groundCartesian	
+}
+function getHeading(origin, destination){
+    var direction;
+    if(origin.latitude < destination.latitude){
+        direction = "North"
+    }else{
+        direction = "South"
+    }	
+    return direction;	
+}
+
+function sinDegrees(angle) {return Math.sin(angle/180*Math.PI);};	
+
+function drawPoint(cartesian, label, color){
+	var entity = viewer.entities.add({
+		position: cartesian,
+		name: label,
+		point: {
+			pixelSize: 3,
+			color: color
+		}
+	});
+	return entity;
+}
+function drawLine(cartesian1, cartesian2, label, followSurface){
+
+var cartographic1 = Cesium.Cartographic.fromCartesian(cartesian1);
+var longitude1 = Cesium.Math.toDegrees(cartographic1.longitude);
+var latitude1 = Cesium.Math.toDegrees(cartographic1.latitude);
+var height1 = cartographic1.height;
+
+
+var cartographic2 = Cesium.Cartographic.fromCartesian(cartesian2);
+var longitude2 = Cesium.Math.toDegrees(cartographic2.longitude);
+var latitude2 = Cesium.Math.toDegrees(cartographic2.latitude);
+var height2 = cartographic2.height;
+
+var entity = viewer.entities.add({
+  name: label,
+    polyline : {
+        positions : Cesium.Cartesian3.fromDegreesArrayHeights([longitude1, latitude1, height1,
+                                                               longitude2, latitude2, height2]),
+        width : 1,
+        followSurface : followSurface,
+        material : Cesium.Color.YELLOW
+    }
+});
+return entity;
+}
+
+
+function drawOffNadirPolygon(points1, points2, satelliteName, validOverpass){
+
+var color;
+if(validOverpass){
+  color = Cesium.Color.fromAlpha(Cesium.Color.GREEN, 0.5)
+}else{
+  color = Cesium.Color.fromAlpha(Cesium.Color.RED, 0.5)
+}
+
+var p1, p2, p3, p4;
+if(satelliteName == 'AEOLUS'){
+  p1 = points1[2];
+  p2 = points1[3];
+  p3 = points2[3];
+  p4 = points2[2];
+}else{
+  p1 = points1[3];
+  p2 = points1[4];
+  p3 = points2[4];
+  p4 = points2[3];
+}
+
+var cesiumPolygon = viewer.entities.add({
+  polygon : {
+    hierarchy : [p1, p2, p3, p4],
+    material: color
+  }
+});
+return cesiumPolygon;
+}
+
+
+
+// TODO: Refactor, some functionality repeated from getSwathPoints
+function drawOffNadirFootprint(satellite, instrument, timestamp){
+
+    var satelliteName = 'CARTOSAT'
+
+    // get three points on the same plane
+    var A = satellite.getValue(timestamp);
+    var B = getGroundCartesian(A);
+    var C = satellite.getValue({'dayNumber': timestamp.dayNumber, 'secondsOfDay': timestamp.secondsOfDay + 120.0});
+    // console.log(satellite.getValue);
+    // console.log(satellite.position)
+    // console.log(satellite)
+    if (C === undefined) {
+
+      return;
+    }
+    var origin = Cesium.Cartographic.fromCartesian(A);
+    var destination = Cesium.Cartographic.fromCartesian(C);
+    var direction = getHeading(origin, destination);
+
+    // get two vectors on the plane using those points
+    var AB = new Cesium.Cartesian3(B.x - A.x, B.y - A.y, B.z - A.z);
+    var AC = new Cesium.Cartesian3(C.x - A.x, C.y - A.y, C.z - A.z);
+
+
+    // get a vector normal to the plane
+    var normal = new Cesium.Cartesian3();
+    Cesium.Cartesian3.cross(AB, AC, normal);
+
+
+
+    /*	if(direction == "South" && instrument.name != "SLSTR (Oblique)"){
+      var newNormal = new Cesium.Cartesian3()
+      newNormal = Cesium.Cartesian3.negate(normal, newNormal);
+      normal = newNormal;
+    }*/
+
+    // get side of triangle opposite nadir angle
+    // @HACK temporary solution to enable swath view for nadir satellites
+    // @TODO The whole OPOT tool JS is an unholy mess needs massive cleaning and refactor
+    var angleA = isNaN(instrument.off_nadir_angle) ? 0.5 : instrument.off_nadir_angle;
+
+    var angleB = 90.0;
+    
+    var sideC = Cesium.Cartesian3.distance(A, B);
+    var angleC = 180.0 - angleA - angleB;
+    // console.log(angleC)
+    var sinC = sinDegrees(angleC);
+    var sideB = sideC/sinC;
+    var sideA = Math.sqrt((sideB * sideB) - (sideC * sideC));
+
+    // get point perpendicular to satellite ground location, reassign it to C
+    var ray = new Cesium.Ray(B, normal);
+    C = Cesium.Ray.getPoint(ray, sideA);
+
+    // get point on ground defining end of satellites viewing area
+    var directionAC = new Cesium.Cartesian3();
+    Cesium.Cartesian3.subtract(C, A, directionAC);
+    var ray2 = new Cesium.Ray(A, directionAC);
+    var intersection = Cesium.IntersectionTests.rayEllipsoid(ray2, viewer.scene.globe.ellipsoid);
+    C = Cesium.Ray.getPoint(ray2, intersection.start);
+    // console.log(C, directionAC)
+    // TODO: Special case, only instruments which looks directly back
+    // along direction of travel. Needs refactoring to use off_nadir_angle
+    if(instrument.off_nadir_direction == 180.0 || instrument.off_nadir_direction == 0.0){
+
+      //// get plane perpendicular to travel
+
+      // get two vectors on the plane using those points
+      var AB = new Cesium.Cartesian3(B.x - A.x, B.y - A.y, B.z - A.z);
+      var AC = new Cesium.Cartesian3(C.x - A.x, C.y - A.y, C.z - A.z);
+      // console.log(AC)
+      // get a vector normal to the plane
+      var normal = new Cesium.Cartesian3();
+      Cesium.Cartesian3.cross(AB, AC, normal);
+
+      if(instrument.off_nadir_direction == 0.0){
+        var newNormal = new Cesium.Cartesian3()
+        newNormal = Cesium.Cartesian3.negate(normal, newNormal);
+        normal = newNormal;
+      }
+
+      // get side of triangle opposite nadir angle
+      var angleA = instrument.off_nadir_angle; // off-nadir angle
+      var angleB = 90.0;
+
+      var sideC = Cesium.Cartesian3.distance(A, B);
+      var angleC = 180.0 - angleA - angleB;
+      var sinC = sinDegrees(angleC);
+      var sideB = sideC/sinC;
+      var sideA = Math.sqrt((sideB * sideB) - (sideC * sideC));
+
+      // get point perpendicular to satellite ground location, reassign it to C
+      var ray = new Cesium.Ray(B, normal);
+      C = Cesium.Ray.getPoint(ray, sideA);
+
+      // get point on ground defining end of satellites viewing area
+      var directionAC = new Cesium.Cartesian3();
+      Cesium.Cartesian3.subtract(C, A, directionAC);
+      var ray2 = new Cesium.Ray(A, directionAC);
+      var intersection = Cesium.IntersectionTests.rayEllipsoid(ray2, viewer.scene.globe.ellipsoid);
+      C = Cesium.Ray.getPoint(ray2, intersection.start);
+      //// get plane perpendicular satellite instrument line of site
+
+      // get two vectors on the plane using those points
+      var AB = new Cesium.Cartesian3(B.x - A.x, B.y - A.y, B.z - A.z);
+      var AC = new Cesium.Cartesian3(C.x - A.x, C.y - A.y, C.z - A.z);
+
+      // get a vector normal to the plane
+      var normal = new Cesium.Cartesian3();
+      Cesium.Cartesian3.cross(AB, AC, normal);
+
+      var ray = new Cesium.Ray(C, normal);
+      D = Cesium.Ray.getPoint(ray, instrument.swath_width/2.0);
+      E = Cesium.Ray.getPoint(ray, -instrument.swath_width/2.0);
+      // console.log(D,E)
+      D = getGroundCartesian(D);
+      E = getGroundCartesian(E);
+      // console.log(D,E)
+      
+
+
+    }else{
+      // Special case, only instrument whose line of sight points to the side of the swath, rather than the middle
+        if(satelliteName == "AEOLUS"){
+        // get point on ground defining start of satellties viewing area
+          var geodesic1 = new Cesium.EllipsoidGeodesic(Cesium.Cartographic.fromCartesian(C), Cesium.Cartographic.fromCartesian(B));
+          var newCartographic1 = geodesic1.interpolateUsingSurfaceDistance(instrument.swath_width);
+          var D = Cesium.Cartesian3.fromDegrees(Cesium.Math.toDegrees(newCartographic1.longitude), Cesium.Math.toDegrees(newCartographic1.latitude))
+        }else{
+          var geodesic1 = new Cesium.EllipsoidGeodesic(Cesium.Cartographic.fromCartesian(B), Cesium.Cartographic.fromCartesian(C));
+          var newCartographic1 = geodesic1.interpolateUsingSurfaceDistance(geodesic1.surfaceDistance + instrument.swath_width/2.0);
+          var D = Cesium.Cartesian3.fromDegrees(Cesium.Math.toDegrees(newCartographic1.longitude), Cesium.Math.toDegrees(newCartographic1.latitude))
+
+          var geodesic2 = new Cesium.EllipsoidGeodesic(Cesium.Cartographic.fromCartesian(C), Cesium.Cartographic.fromCartesian(B));
+          var newCartographic2 = geodesic2.interpolateUsingSurfaceDistance(instrument.swath_width/2.0);
+          var E = Cesium.Cartesian3.fromDegrees(Cesium.Math.toDegrees(newCartographic2.longitude), Cesium.Math.toDegrees(newCartographic2.latitude))
+        }
+
+    }
+
+    var footPrintCollection = new Cesium.EntityCollection();
+
+      var points;
+    if(satelliteName == "AEOLUS"){
+      points = [A, B, C, D];
+
+      footPrintCollection.add(drawPoint(points[0], 'A', Cesium.Color.RED));
+      footPrintCollection.add(drawPoint(points[2], 'A', Cesium.Color.RED));
+      footPrintCollection.add(drawPoint(points[3], 'A', Cesium.Color.RED));
+
+      footPrintCollection.add(drawLine(points[0], points[3], 'b', false));
+      footPrintCollection.add(drawLine(points[0], points[2], 'b', false));
+    }else{
+      points = [A, B, C, D, E];
+      // console.log(points)
+      footPrintCollection.add(drawPoint(points[0], 'A', Cesium.Color.RED));
+      footPrintCollection.add(drawPoint(points[3], 'A', Cesium.Color.RED));
+      footPrintCollection.add(drawPoint(points[4], 'A', Cesium.Color.RED));
+
+      footPrintCollection.add(drawLine(points[0], points[3], 'b', false));
+      footPrintCollection.add(drawLine(points[0], points[4], 'b', false));
+    }
+
+    if(previousPointsOffNadirPoints[satelliteName]){
+      var polygon = drawOffNadirPolygon(previousPointsOffNadirPoints[satelliteName], points, satelliteName, true)
+      footPrintCollection.add(polygon);
+    }
+    previousPointsOffNadirPoints[satelliteName] = points;
+    return footPrintCollection;
+    }
+
+
+    // const timeID = setInterval(timeAndDate, 1000);
+    satelliteNameIntervalIDMap = {'CARTOSAT 3': 44804}
+  
+function drawFootPrintInterval(satellite, instrumentName, riseTimeJulian, setTimeJulian){
+  const satName = 'CARTOSAT 3'
+	previousPointsOffNadirPoints = {};
+
+	var footPrintCollectionArray = [];
+
+	var footprintParameters = getFootprintParameters(instrument);
+
+	if(satellite.getValue(clock.currentTime)){
+		var footPrintCollection = drawFootPrintMain2(satellite, instrument, clock.currentTime);
+		footPrintCollectionArray.push(footPrintCollection);
+		globalFootPrintCollectionArray.push(footPrintCollection);
+	}
+
+	// clears interval displaying previous interval when cycling through instruments
+   	var currentIntervalID = satelliteNameIntervalIDMap[satName];
+   	if(currentIntervalID){
+   		clearInterval(currentIntervalID);
+   	}
+
+	var intervalID = setInterval(function() {
+		// remove excess instrument footprints from globe
+		if(footPrintCollectionArray.length >= footprintParameters.numberOfFootPrintsAtAtime){
+			var entities = footPrintCollectionArray[0].values;
+        	footPrintCollectionArray.splice(0,1);
+
+        	for(var i = 0; i < entities.length; i++){
+        		viewer.entities.remove(entities[i]);
+        	}
+		}
+
+   		if(satellite.getValue(clock.currentTime)){
+   			var footPrintCollection = drawFootPrintMain2(satellite, instrument, clock.currentTime);
+   			footPrintCollectionArray.push(footPrintCollection);
+   			globalFootPrintCollectionArray.push(footPrintCollection);
+   		}
+	}, footprintParameters.intervalBetweenFootPrints);
+
+	satelliteNameIntervalIDMap[satName] = intervalID;
+	footPrintIntervalIDs.push(intervalID);
+
+	function drawFinalFootprint(clock){
+		if(clock.currentTime.equalsEpsilon(setTimeJulian, 2)){
+   			var footPrintCollection = drawFootPrintMain2(satellite, instrument, clock.currentTime);
+   			footPrintCollectionArray.push(footPrintCollection);
+   			globalFootPrintCollectionArray.push(footPrintCollection);
+
+			clearInterval(intervalID)
+			viewer.clock.onTick.removeEventListener(drawFinalFootprint);
+		}
+	}
+
+	viewer.clock.onTick.addEventListener(drawFinalFootprint);
+}
+
+function drawFootPrintMain2(satellite, instrument, timestamp){
+	var colour = Cesium.color;
+	var satColour = new Cesium.Color(255, 0, 0, 0.3);
+
+   	var cartesian = satellite.getValue(clock.currentTime);
+	var cartographic = Cesium.Cartographic.fromCartesian(cartesian);
+
+	var footPrintCollection = new Cesium.EntityCollection();
+
+	if(instrument.off_nadir_angle){
+
+		footPrintCollection = drawOffNadirFootprint(satellite, instrument, timestamp)
+	}else{
+		var entity = drawInstrumentFootPrintSwathWidth(cartographic, instrument, satColour);
+		footPrintCollection.add(entity);
+	}
+
+	return footPrintCollection;
+}
+
+function getFootprintParameters(instrument){
+
+var secondMultiplier = instrument.swath_width/4000;  // for every 250km of swath width, add one second between footprints
+// var intervalBetweenFootPrints = 1000.0 * secondMultiplier;
+var intervalBetweenFootPrints = 1000.0
+if(intervalBetweenFootPrints > 4000){
+  intervalBetweenFootPrints = 4000;
+}else if(intervalBetweenFootPrints < 500){
+  intervalBetweenFootPrints = 1000;
+}
+var numberOfFootPrintsAtAtime = parseInt(30/Math.ceil(2));
+
+return {'numberOfFootPrintsAtAtime': numberOfFootPrintsAtAtime, 'intervalBetweenFootPrints': intervalBetweenFootPrints};
+}
+
+
+// draws footprint of satellite based on its swath width of its instrument along the ground
+function drawInstrumentFootPrintSwathWidth(cartographic, instrument, satColour){
+
+var longitude = Cesium.Math.toDegrees(cartographic.longitude)
+var latitude = Cesium.Math.toDegrees(cartographic.latitude)
+var height = cartographic.height;
+
+// centre of the cone should be half the height of satellite, which puts apex at the satellites position
+var position = Cesium.Cartesian3.fromDegrees(longitude, latitude, height/2);
+
+var cone = viewer.entities.add({
+    name : 'Satellite Field of View',
+    position: position,
+    cylinder : {
+        length : height,
+        topRadius : 0.0,
+        bottomRadius : instrument.swath_width/2.0,
+        material : satColour,
+        outline: true,
+        outlineColor: Cesium.Color.RED.withAlpha(0.5)
+    }
+});
+return cone;
+}
+
+drawFootPrintInterval(positionsOverTime, instrument, start, stop);
+
+// function timeAndDate(){
+//   drawOffNadirFootprint(positionsOverTime, instrument, clock.currentTime);
+//   console.log(globalFootPrintCollectionArray)
+// }
+// const st = setInterval( timeAndDate, 1000)
+    {% comment %} ============================================================= {% endcomment %}
+    
     
 
   </script>
  </div>
 </body>
 <style>
-  
-body{
-  margin: 0px;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-}
-li{
-  text-decoration: none;
-  list-style: none;
-}
+  body {
+    margin: 0px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  }
 
-h2{
-  padding: 0px;
-  margin: 0px;
-  font-size: 40px;
-}
-.navbar{
-  position: sticky;
-  top: 0px;
-  width: 100%;
-}
-.nav-list{
-  display: flex;
-  justify-content: right;
-  text-align: center;
-  vertical-align: center;
-  padding: 20px 30px;
-  margin: 0px;
-  color: white;
-  background-color: rgba(0,0,0,0.9);
-  backdrop-filter: blur(15px);
-  z-index: 10;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  .select-box {
+    margin: 10px;
+    padding: 10px;
+    border: none;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    background-color: #2980b9;
+    color: #e3f2fd;
+    font-size: 18px;
+    border-radius: 18px;
+  }
 
-}
+  .select-box option {
+    background: #fff;
+    color: black;
+    font-size: 15px;
+  }
 
-.nav-list li{
-  padding: 1px 10px;
- 
-  text-decoration: none;
-  list-style: none;
-  vertical-align: center;
-}
-.logo{
-  position: absolute;
-  top: 2px;
-  left: 14px;
-}
-.logo a{
-  text-decoration: none;
-  color: white;
-}
-#cesiumContainer{
-  background-color: aquamarine;
-  height: 400px;
-  width: 75%;
-  margin-top: 10px;
-  margin-left: 10px;
-}
+  .show-footprint {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #2980b9;
+    margin: 10px;
+    padding: 5px 10px;
+    border-radius: 18px;
+    cursor: pointer;
+     background-color: #3498db;
+    color: white;
+  }
+  .show-footprint:hover {
+    background-color: #3498db;
+    color: white;
+    
+  }
 
-.t1{
-  position: relative;
-  width: 400px;
-  padding: 30px;
-  font-size: 16px;
-}
-.main-block{
-  display: flex;
-  justify-content: left;
+  #cesiumContainer {
+    background-color: aquamarine;
+    height: 400px;
+    width: 75%;
+    margin-top: 10px;
+    margin-left: 10px;
+  }
 
-  
-}
-.sat-details{
-  padding: 20px;
-  margin-top: 10px;
-  
+  .t1 {
+    position: relative;
+    width: 400px;
+    padding: 30px;
+    font-size: 16px;
+  }
 
-}
-.sat-name{
-  font-size: 30px;
-  font-weight: 700;
-  padding: 20px 10px;
-}
-.description{
-  padding: 10px
-}
-.t2{
-  padding: 10px;
-  font-size: 15px;
-}
+  .main-block {
+    display: flex;
+    justify-content: left;
+
+
+  }
+
+  .sat-details {
+    padding: 20px;
+    margin-top: 10px;
+
+
+  }
+
+  .sat-name {
+    font-size: 30px;
+    font-weight: 700;
+    padding: 20px 10px;
+  }
+
+  .description {
+    padding: 10px
+  }
+
+  .btn {
+    background: #3498db;
+    background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
+    background-image: -moz-linear-gradient(top, #3498db, #2980b9);
+    background-image: -ms-linear-gradient(top, #3498db, #2980b9);
+    background-image: -o-linear-gradient(top, #3498db, #2980b9);
+    background-image: linear-gradient(to bottom, #3498db, #2980b9);
+    -webkit-border-radius: 28;
+    -moz-border-radius: 28;
+    border-radius: 28px;
+    font-family: Arial;
+    color: #ffffff;
+    font-size: 20px;
+    padding: 10px 20px 10px 20px;
+    text-decoration: none;
+  }
+
+  .btn:hover {
+    background: #3cb0fd;
+    background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+    text-decoration: none;
+  }
+
+  .t2 {
+    padding: 10px;
+    font-size: 15px;
+  }
 </style>
-</html>
+{% endblock content %}

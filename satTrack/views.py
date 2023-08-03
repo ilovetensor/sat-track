@@ -7,7 +7,7 @@ from .extract_data import convert, get_live_data, data_over_time
 from django.utils import timezone
 from django.views.generic.list import ListView
 
-from .models import Satellite, Sensor
+from .models import Satellite, Sensor, TLE
 
 def search_page(request):
     model = Satellite
@@ -36,20 +36,32 @@ def search_word(request):
 
 def data(request, norad_id):
     satellite = Satellite.objects.get(pk=norad_id)
-    TLE = satellite.tle
-    save_dict = convert(TLE)
+    TLE_DATA = satellite.tle_now
+    save_dict = convert(TLE_DATA)
+
+
+  
 
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
 
     if is_ajax:
         lat = request.GET.get("cur_loc_lat", None)
         lon = request.GET.get("cur_loc_lon", None)
-       
-        position = get_live_data(TLE, {'lat':lat, 'lon':lon})
-    
+        compare_tle = request.GET.get("compare_tle", None)
+        position = get_live_data(TLE_DATA, {'lat':lat, 'lon':lon})
+        if compare_tle:
+            TLE_COMPARE = TLE.objects.get(id=compare_tle).tle
+            position1 = get_live_data(TLE_COMPARE, {'lat':lat, 'lon':lon})
+        else:
+            position1 = position
+            
+        diff = {'lat': position['lat'] - position1['lat'], 
+                'lon': position['lon'] - position1['lon'], 
+                'height': position['height'] - position1['height'], 
+                }
         
         if request.method == 'GET':
-            return JsonResponse({'context': position})
+            return JsonResponse({'context': position1,'difference':diff})
         return JsonResponse({'status': 'Invalid request'}, status=400)
         
     else:
@@ -59,13 +71,13 @@ def data(request, norad_id):
 
 def data_buffer(request, norad_id):
     satellite = Satellite.objects.get(pk=norad_id)
-    TLE = satellite.tle
-    period = convert(TLE)['period']
+    TLE_DATA = satellite.tle_now
+    period = convert(TLE_DATA)['period']
 
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
     if is_ajax:
         
-        time_scale_pos = data_over_time(TLE, period)
+        time_scale_pos = data_over_time(TLE_DATA, period)
     
         if request.method == 'GET':
             return JsonResponse({'context': time_scale_pos})
@@ -85,16 +97,19 @@ class list_view(ListView):
 def detail_view(request, norad_id, sensor_name):
     sensor = Sensor.objects.get(name=sensor_name)
     satellite = Satellite.objects.get(pk=norad_id)
-    TLE = satellite.tle
-    sat_data = convert(TLE)
-    context =  {'satellite': satellite, 'data': sat_data, 'sensor': sensor}
+    tle_list = satellite.tle_set.all()
+    TLE_DATA = satellite.tle_now
+    sat_data = convert(TLE_DATA)
+    context =  {'satellite': satellite, 'data': sat_data, 'sensor': sensor, 'tle_list': tle_list}
     return render(request, 'home.html', context)
 
 def sensor_list(request, norad_id):
     satellite = Satellite.objects.get(pk=norad_id)
     sensors = satellite.sensors.all()
+    TLE_DATA = satellite.tle_now
+    save_dict = convert(TLE_DATA)
 
-    context = { 'satellite': satellite ,'sensors': sensors}
+    context = { 'satellite': satellite ,'sensors': sensors, 'data': save_dict}
     return render(request, 'sensors.html', context)
 
 

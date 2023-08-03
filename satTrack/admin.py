@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Satellite, Sensor
+from .models import Satellite, Sensor, TLE
 # Register your models here.
 
 # Register your models here.
@@ -9,3 +9,4 @@ from .models import Satellite, Sensor
 
 admin.site.register(Satellite)
 admin.site.register(Sensor)
+admin.site.register(TLE)

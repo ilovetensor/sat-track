@@ -11,9 +11,9 @@ from .models import Satellite, Sensor, TLE
 
 def search_page(request):
     model = Satellite
-    all_objects = Satellite.objects.all()
-    for object in all_objects:
-        object.save()
+    # all_objects = Satellite.objects.all()
+    # for object in all_objects:
+    #     object.save()
     return render(request, 'search.html')
 
 

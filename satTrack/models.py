@@ -14,7 +14,7 @@ def get_tle_from_n2yo(id):
         params=params
     ).json()
     last_tle_update = datetime.now().date()
-    return (r['tle'], last_tle_update)
+    return (r['tle'])
 
 STATUS_CHOICES = (( 'active','ACTIVE'),
                   ('not_tracked','NOT TRACKED'))

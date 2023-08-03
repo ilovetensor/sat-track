@@ -9,6 +9,5 @@ urlpatterns = [
     path('sat/<int:norad_id>', sensor_list, name="detail_view"),
     path('data/<int:norad_id>', data, name='data',),
     path('databuffer/<int:norad_id>', data_buffer, name='databuffer')
-    
 ]
 

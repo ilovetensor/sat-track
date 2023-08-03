@@ -96,7 +96,7 @@ class Satellite(models.Model):
     
 
 class TLE(models.Model):
-    satellite = models.ForeignKey(to=Satellite, on_delete=models.CASCADE , editable=True, default=Satellite.objects.first())
+    satellite = models.ForeignKey(to=Satellite, on_delete=models.CASCADE , editable=True, default={'name': ''})
     tle = models.TextField("Satellite Tle" ,max_length=100, default='', null=True, editable=True)
     date_added = models.DateTimeField('Fech datetime ', default=datetime(2000,2,2,2,2,2,2), null=True, editable=True)
 

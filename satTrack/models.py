@@ -95,12 +95,10 @@ class Satellite(models.Model):
         super().save(*args, **kwargs)
     
 
-class TLE(models.Model):
-    satellite = models.ForeignKey(to=Satellite, on_delete=models.CASCADE , editable=True)
-    tle = models.TextField("Satellite Tle" ,max_length=100, default='s', null=True, editable=True)
-    date_added = models.DateTimeField('Fech datetime ', default=datetime(2000,2,2,2,2,2,2), null=True, editable=True)
+# class TLE(models.Model):
+#     # satellite = models.ForeignKey(to=Satellite, on_delete=models.CASCADE , editable=True)
+#     tle = models.TextField("Satellite Tle" ,max_length=100, default='s', null=True, editable=True)
+#     # date_added = models.DateTimeField('Fech datetime ', default=datetime(2000,2,2,2,2,2,2), null=True, editable=True)
 
-    def __str__(self):
-        return f"{self.satellite.name} on {self.date_added.date()} at {self.date_added.strftime('%H:%M:%S')}"
-
-   
+#     # def __str__(self):
+#     #     return f"{self.satellite.name} on {self.date_added.date()} at {self.date_added.strftime('%H:%M:%S')}"

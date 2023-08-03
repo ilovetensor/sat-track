@@ -56,7 +56,7 @@ class Satellite(models.Model):
     orbit_revisit = models.IntegerField('Revisit Period [days]', default=0)
     orbit_distance = models.FloatField('Successive orbits distance [km]', default=0)
     orbits_per_day = models.IntegerField('Orbits per day', default=0)
-    
+
     inclination = models.FloatField('Inclination [°]', default=0)
     perigee = models.FloatField('Perigee', default=0)
     apogee = models.FloatField('Apogee', default=0)
@@ -96,9 +96,9 @@ class Satellite(models.Model):
     
 
 class TLE(models.Model):
-    satellite = models.ForeignKey(to=Satellite, on_delete=models.CASCADE, editable=False)
-    tle = models.TextField("Satellite Tle " ,max_length=100,default='', editable=False)
-    date_added = models.DateTimeField('Fech datetime', default=datetime(2000,2,2,2,2,2,2), editable=False)
+    satellite = models.ForeignKey(to=Satellite, on_delete=models.CASCADE , editable=True, null=True)
+    tle = models.TextField("Satellite Tle" ,max_length=100, default='', null=True, editable=True)
+    date_added = models.DateTimeField('Fech datetime ', default=datetime(2000,2,2,2,2,2,2), null=True, editable=True)
 
     def __str__(self):
         return f"{self.satellite.name} on {self.date_added.date()} at {self.date_added.strftime('%H:%M:%S')}"

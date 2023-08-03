@@ -7,7 +7,7 @@ from .extract_data import convert, get_live_data, data_over_time
 from django.utils import timezone
 from django.views.generic.list import ListView
 
-from .models import Satellite, Sensor
+from .models import Satellite, Sensor, TLE
 
 def search_page(request):
     model = Satellite

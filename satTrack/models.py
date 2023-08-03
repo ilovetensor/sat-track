@@ -53,6 +53,10 @@ class Satellite(models.Model):
     # resolution_value = models.FloatField('Resolution Value [m]', default=0)
     orbit = models.CharField('Orbit Type', max_length=20, default='-')
     orbital_period = models.FloatField('Orbital Period [m]', default=0)
+    orbit_revisit = models.IntegerField('Revisit Period [days]', default=0)
+    orbit_distance = models.FloatField('Successive orbits distance [km]', default=0)
+    orbits_per_day = models.IntegerField('Orbits per day', default=0)
+    
     inclination = models.FloatField('Inclination [°]', default=0)
     perigee = models.FloatField('Perigee', default=0)
     apogee = models.FloatField('Apogee', default=0)

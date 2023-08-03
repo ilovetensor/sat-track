@@ -326,7 +326,7 @@ var footPrintIntervalIDs = []
 var satelliteNameIntervalIDMap = {}
 var previousPointsOffNadirPoints = {};
 var globalFootPrintCollectionArray = [];
-const instrument = {'off_nadir_angle': 25, 'off_nadir_direction':0, 'swath_width': 17000, 'resolution': 0.28, 'speed': 7000};
+const instrument = {'off_nadir_angle': 0.2, 'off_nadir_direction':0, 'swath_width': {{ sensor.swath*1000 }}, 'resolution': 0.28, 'speed': 7000};
 
 function getGroundCartesian(cartesian){
 

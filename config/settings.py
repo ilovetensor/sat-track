@@ -44,13 +44,11 @@ INSTALLED_APPS = [
     'satTrack',
 
     # third-party-apps
-    'django_crontab',
+
     
 ]
 
-CRONJOBS = [
-    ('* * * * *', 'satTrack.cron.my_cron_job')
-]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -87,7 +85,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 
-DATABASES = {'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))}
+DATABASES = {'default': dj_database_url.parse('postgres://satellite_data_user:SzZuIno0MAI90iLKKwhcToPwVpi6Emad@dpg-cj3tg5tiuie55pnllqig-a.oregon-postgres.render.com/satellite_data')}
 
 # DATABASES = {
 #     'default': {

@@ -1,19 +1,25 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
-<!-- <div style="height: 90vh;background-color: #D9AFD9;background-image: linear-gradient(0deg, #D9AFD9 0%, #97D9E1 100%);"> -->
-<div class="head">
-    <div style="height:45vh;display: flex;align-items: center;justify-content: center;">
-        <p style="font-size: 1.8rem;font-family:sans-serif;"> <span
-                style="font-size: 2.3rem;font-weight: bold;color: rgb(225 146 0)">An Web App for Finding</span>
-            <br><span style="margin-left: 80px;font-size: 2.4rem;color: white;font-weight: bold">Possibility
-                of</span><br><span style="font-size: 2.4rem;font-weight: 900;color: #599005;margin-left: 30px">Satellite
-                Imaginary
-            </span>
-        </p>
-    </div>
 
+<div class="main-container">
+    <div class="container">
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"><img src="{% static 'sdsc.jpg' %}" alt=""></div>
+                <div class="swiper-slide"><img src="{% static 'satellite.png' %}" alt=""></div>
+                <div class="swiper-slide"><img src="{% static 'Cartosat-3-catlog.png' %}" alt=""></div>
+                <div class="swiper-slide"><img src="{% static 'cartosat-2-catlog.jpg' %}" alt=""></div>
+                <div class="swiper-slide"><img src="{% static 'EOS-07-catlog.jpg' %}" alt=""></div>
+                <div class="swiper-slide"><img src="{% static 'PSLV-catlog.jpg' %}" alt=""></div>
+            </div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
     <div class="search-container">
-        <form class="container">
+        <form class="form-container">
             <div class="searchInput">
                 <input id="search" type="text" placeholder="Search..." autofocus required />
                 <button type="submit">Go</button>
@@ -24,13 +30,24 @@
         </form>
     </div>
 </div>
-
-
-
 <script type='module'>
 
-
-    // getting all required elements
+    var swiper = new Swiper(".mySwiper", {
+        spaceBetween: 30,
+        centeredSlides: true,
+        autoplay: {
+            delay: 2500,
+            disableOnInteraction: false,
+        },
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+    });
     const searchInput = document.querySelector(".searchInput");
     const input = searchInput.querySelector("input");
     const resultBox = searchInput.querySelector(".resultBox");
@@ -104,65 +121,64 @@
 </script>
 
 
+
+
+
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
 
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: 'Poppins', sans-serif;
+    :root {
+        --rad: 15px;
+        --dur: .3s;
+        --color-dark: #2f2f2f;
+        --color-light: #fff;
+        --color-brand: #57bd84;
+        --font-fam: 'Lato', sans-serif;
+        --height: 5rem;
+        --btn-width: 75px;
+        --bez: cubic-bezier(0, 0, 0.43, 1.49);
     }
 
-    .head {
-        background-image: url("../static/background.jpg");
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: cover;
-        height: 91vh;
-    }
-
-    .container {
-        max-width: 450px;
-    }
-
-    .style {
-        padding: 10px;
-        margin-right: 50px;
-        cursor: pointer;
-        background: #3498db;
-        background-image: linear-gradient(to bottom, #3498db, #2980b9);
-        -webkit-border-radius: 28;
-        -moz-border-radius: 28;
-        border-radius: 28px;
-        font-family: Arial;
-        color: #ffffff;
-        font-size: 20px;
-        padding: 10px 20px 10px 20px;
-        text-decoration: none;
-    }
-
-    .style:hover {
-        background: #3cb0fd;
-        background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
-        background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
-        background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
-        background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
-        background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
-        text-decoration: none;
-    }
-
-    .search-container {
-        height: 45vh;
+    .main-container {
+        height: 90vh;
         position: relative;
     }
 
     .container {
-        position: absolute;
-        left: 35%;
+        height: 90vh;
     }
 
-    .container .searchInput {
+    .swiper {
+        width: 100%;
+        height: 100%;
+    }
+
+    .swiper-slide {
+        text-align: center;
+        font-size: 18px;
+        background: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .swiper-slide img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+    }
+
+    .search-container {
+        position: absolute;
+        top: 45%;
+        left: 34%;
+        z-index: 1000;
+    }
+
+    .searchInput {
         background: #fff;
         width: 100%;
         border-radius: 15px;
@@ -217,19 +233,6 @@
         background: #efefef;
     }
 
-    /* ============================ */
-    :root {
-        --rad: 15px;
-        --dur: .3s;
-        --color-dark: #2f2f2f;
-        --color-light: #fff;
-        --color-brand: #57bd84;
-        --font-fam: 'Lato', sans-serif;
-        --height: 5rem;
-        --btn-width: 75px;
-        --bez: cubic-bezier(0, 0, 0.43, 1.49);
-    }
-
     form {
         position: relative;
         width: 30rem;
@@ -279,15 +282,6 @@
             display: block;
         }
     }
-
-    label {
-        position: absolute;
-        clip: rect(1px, 1px, 1px, 1px);
-        padding: 0;
-        border: 0;
-        height: 1px;
-        width: 1px;
-        overflow: hidden;
-    }
 </style>
+
 {% endblock content %}

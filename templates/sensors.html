@@ -4,23 +4,27 @@
 <div class="divide">
   <div class="tle-data">
     <h3 class="sat-name">{{satellite.name}}</h3>
-    <ul>
-      <li>Norad ID : <span>{{satellite.norad_id }}</span></li>
-      <li>Launch Year : <span>{{data.launch_year}}</span></li>
-      <li>First derivative mean motion : <span>{{data.first_derivative_mean_motion}}</span></li>
-      <li>Second derivative mean motion : <span>{{data.second_derivative_mean_motion}}</span></li>
-      <li>Bstar : <span>{{data.bstar}}</span></li>
-      <li>Inclination : <span>{{data.inclination}}</span></li>
-      <li>RAAN : <span>{{data.RAAN}}</span></li>
-      <li>Longitude of ascending node : <span>{{data.longitude_of_ascending_node}}</span></li>
-      <li>Eccentricity : <span>{{data.eccentricity}}</span></li>
-      <li>Argument of perigee : <span>{{data.argument_of_perigee}}</span></li>
-      <li>Argument of periapsis : <span>{{data.argument_of_periapsis}}</span></li>
-      <li>Mean anomaly : <span>{{data.mean_anomaly}}</span></li>
-      <li>Mean motion : <span>{{data.mean_motion}}</span></li>
-      <li>Semi major axis : <span>{{data.semi_major_axis}}</span></li>
-      <li>Period : <span>{{data.period}}</span></li>
-    </ul>
+    <div style="margin-left: 50px;">
+      <table border="1px solid">
+        <tbody>
+          <tr> <td>Norad ID :</td><td>{{data.norad_id }}</td></tr>
+          <tr> <td>Launch Year :</td><td>20{{data.launch_year}}</td></tr>
+          <tr> <td>First derivative mean motion : </td><td>{{data.first_derivative_mean_motion}}</td></tr>
+          <tr> <td>Second derivative mean motion :</td><td>{{data.second_derivative_mean_motion}}</td></tr>
+          <tr> <td>Bstar :</td><td>{{data.bstar}}</td></tr>
+          <tr> <td>Inclination :</td><td>{{data.inclination}} deg.</td></tr>
+          <tr>  <td>RAAN : </td><td>{{data.RAAN}} deg.</td></tr>
+          <tr> <td>Longitude of ascending node :</td><td>{{data.longitude_of_ascending_node}} deg.</td></tr>
+          <tr> <td>Eccentricity :</td><td>{{data.eccentricity}}</td></tr>
+          <tr> <td>Argument of perigee :</td> <td>{{data.argument_of_perigee}} deg.</td></tr>
+          <tr> <td>Argument of periapsis : </td><td>{{data.argument_of_periapsis}} deg.</td></tr>
+          <tr> <td>Mean anomaly :</td><td>{{data.mean_anomaly}}</td></tr>
+          <tr> <td>Mean motion :</td><td>{{data.mean_motion}}</td></tr>
+          <tr> <td>Semi major axis :</td><td>{{data.semi_major_axis}} km</td></tr>
+          <tr> <td>Period :</td><td>{{data.period}} minutes</td></tr>
+        </tbody>
+      </table>
+    </div>
   </div>
   <div class="satellite_details">
     <div class="sat-tle">
@@ -30,8 +34,7 @@
       <button id="fetch_tle" type="button"> Fetch Again 🐶</button>
     </div>
     <div class="sensors">
-      <h4 class="sensor_head">Available Sensors :</h6>
-
+      <h4>Available Sensors :</h6>
         <table class="t3">
           <tr>
             <th>Select</th>
@@ -83,42 +86,58 @@
 </script>
 
 <style>
-  .sat-name {
-    margin-left: 40px;
-    font-size: 1.3rem;
-  }
-
-  .sat-tle {
-    width: 680px;
-  }
-
   .divide {
-    height: 91vh;
+    height: 90vh;
     display: flex;
+    align-items: center;
     justify-content: space-between;
     background: #e3f2fd;
   }
 
-
-  .sat-data li {
-    padding: 5px;
+  .sat-name {
+    margin-left: 48px;
+    font-size: 1.3rem;
+    margin-bottom: 10px;
   }
 
-  .sat-tle * {
-    padding: 5px;
+  table,
+  th,
+  td {
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
+
+  td,
+  th {
+    padding: 8px;
+  }
+
+  .satellite_details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6rem;
   }
 
   .sat-tle {
-    padding-right: 50px;
+    width: 90%;
   }
 
-  .tle-data li {
-    font-weight: bold;
+  .sat-tle h4 {
+    margin-bottom: 10px;
   }
 
-  .tle-data li span {
-    font-weight: 600;
-    color: #4d4747;
+  .sat-tle .tle {
+    margin-bottom: 10px;
+  }
+
+  .tle-data {
+    flex: 0.3;
+  }
+
+  .satellite_details {
+    flex: 0.7;
   }
 
   button {
@@ -139,18 +158,11 @@
   }
 
   button:active {
-
     scale: 0.99;
-
-  }
-
-  .t3 {
-    padding: 10px;
-    margin: 10px 40px;
   }
 
   .t3 th {
-    font-weight: 400;
+    font-weight: 600;
   }
 
   .t3 th,
@@ -160,7 +172,15 @@
   }
 
   .sensors {
-    padding: 30px;
+    width: 90%;
+    padding: 30px 0;
+  }
+
+  .sensors h4 {
+    margin-bottom: 10px;
+  }
+  .sensors button {
+    margin-top: 10px;
   }
 </style>
 {% endblock content %}

@@ -17,7 +17,7 @@
 {% block content %}
 <body>
 
-  <div style="background: #e3f2fd; height: 90vh;">
+  <div style="background: #e3f2fd; ">
     <div class="main-block">
       <div id="cesiumContainer"></div>
       <table class="t1" style="border: 1px solid green;margin: 15px;">
@@ -232,7 +232,7 @@
     const orbit = viewer.entities.add({
       availability: new Cesium.TimeIntervalCollection([ new Cesium.TimeInterval({start: start, stop: stop}) ]),
       position: positionsOverTime,
-      point: {pixelSize: 30, color: Cesium.Color.YELLOW },
+  
       
     });
 
@@ -318,6 +318,27 @@
     const errorCallback = (error) => {
       console.log(error);
     };
+
+
+
+    // ADDING SATELLITE 3D OBJECT
+    async function loadModel() {
+      // Load the glTF model from Cesium ion.
+      const satelliteUri = await Cesium.IonResource.fromAssetId(2099905);
+      const satelliteEntity = viewer.entities.add({
+      position: positionsOverTime,
+   
+      model: {
+        uri: satelliteUri,
+        minimumPixelSize: 50028,
+        maximumScale: 90000,
+      },
+      orientation: new Cesium.VelocityOrientationProperty(positionsOverTime),
+      path: new Cesium.PathGraphics({ width: 3 })
+    });
+
+  }
+
 
     {% comment %} =============================================================== {% endcomment %}
     
@@ -714,6 +735,7 @@ return cone;
 }
 
 drawFootPrintInterval(positionsOverTime, instrument, start, stop);
+loadModel();
 
 // function timeAndDate(){
 //   drawOffNadirFootprint(positionsOverTime, instrument, clock.currentTime);
@@ -771,7 +793,7 @@ drawFootPrintInterval(positionsOverTime, instrument, start, stop);
 
   #cesiumContainer {
     background-color: aquamarine;
-    height: 400px;
+    min-height: 580px;
     width: 75%;
     margin-top: 10px;
     margin-left: 10px;

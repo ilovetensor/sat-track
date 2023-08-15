@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from sgp4.api import Satrec 
 from sgp4.api import jday 
 import pandas as pd 
-from .extract_data import convert, get_live_data, data_over_time
+from .extract_data import convert, get_live_data, data_over_time, get_position
 from django.utils import timezone
 from django.views.generic.list import ListView
 
@@ -116,3 +116,26 @@ def sensor_list(request, norad_id):
     return render(request, 'sensors.html', context)
 
 
+def compare_tle(request, norad_id):
+    print("running")
+    satellite = Satellite.objects.get(pk=norad_id)
+    tle_list = satellite.tle_set.all()
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+    if is_ajax:
+        id_1 = request.GET.get("tle1", None)
+        id_2 = request.GET.get("tle2", None)
+        time = request.GET.get("time", None)
+        print(time)
+        TLE1 = TLE.objects.get(id=id_1).tle
+        TLE2 = TLE.objects.get(id=id_2).tle
+        position = get_position(TLE1, time)
+        position1 = get_position(TLE2, time)
+        diff = {'lat': position['lat'] - position1['lat'], 
+                'lon': position['lon'] - position1['lon'], 
+                'height': position['height'] - position1['height'], 
+                }
+        if request.method == 'GET':
+            return JsonResponse({'context': diff})
+    else:
+        context = {'satellite': satellite, 'tle_list': tle_list }
+        return render(request, 'compare.html', context)

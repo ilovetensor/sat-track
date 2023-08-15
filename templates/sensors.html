@@ -32,6 +32,7 @@
       <div class="tle">{{ satellite.tle_now }}</div>
       <div class="last-fetch"><b>Last fetch date: </b> {{ satellite.last_tle_update }}</div>
       <button id="fetch_tle" type="button"> Fetch Again 🐶</button>
+      <button onclick="compare_tle()" > Compare Prev. TLE </button>
     </div>
     <div class="sensors">
       <h4>Available Sensors :</h6>
@@ -71,6 +72,9 @@
 
 
 <script>
+  function compare_tle(){
+    window.location.href = "{% url 'compare' satellite.norad_id %}";
+  }
   function get_tracking() {
 
     var ele = document.getElementsByName('sensor');

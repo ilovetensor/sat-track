@@ -7,6 +7,7 @@ from skyfield.api import load, wgs84
 import matplotlib.pyplot as plt 
 import math
 import requests
+from datetime import datetime
 
 
 
@@ -117,13 +118,15 @@ def get_geodetic_coordinates(SATELLITE, time):
     return data
 
 
-def get_live_data(TLE, cur_loc):
+def get_live_data(TLE, cur_loc=None):
     
     SATELLITE, ts = load_satellite(TLE)
     
     time = ts.now()
-    alt, az, distance, ra, dec = get_azimuth_altitude_distance_ra_dec(SATELLITE, time, cur_loc)
-
+    if cur_loc:
+        alt, az, distance, ra, dec = get_azimuth_altitude_distance_ra_dec(SATELLITE, time, cur_loc)
+    else: 
+        alt, az, distance, ra, dec = 0,0,0,0
     geocentric = SATELLITE.at(time)
     v = geocentric.velocity.km_per_s
     speed = math.sqrt(v[0]**2 + v[1]**2 + v[2]**2)
@@ -165,3 +168,17 @@ def data_over_time(TLE, minutes_to_project=94):
         i+=1
     buffer['geodetic'] = geodetic
     return buffer
+
+def get_position(TLE, time):
+    SATELLITE, ts = load_satellite(TLE)
+    time = datetime.fromisoformat(time)
+    timest = ts.utc(time.year, time.month, time.day, time.hour, time.minute, time.second)
+    geocentric = SATELLITE.at(timest)
+    lat, lon = wgs84.latlon_of(geocentric)
+    h = wgs84.height_of(geocentric)
+    
+    position = {'lat': round(lat.degrees, 2),
+                'lon': round(lon.degrees, 2), 
+                'height': round(h.km, 2), 
+                }
+    return position

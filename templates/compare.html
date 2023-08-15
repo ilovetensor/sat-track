@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="select-panel">
+        <select id="select_box1" class="select-box" >
+        {% for tle_value in tle_list %}
+            <option value="{{tle_value.id}}">{{ tle_value }}</option>
+        {% endfor %}
+        </select>
+        <!-- <div class="show-footprint">Show Footprint</div> -->
+    </div>
+    <div >
+        <select id="select_box2" class="select-box" >
+        {% for tle_value in tle_list %}
+            <option value="{{tle_value.id}}">{{ tle_value }}</option>
+        {% endfor %}
+        </select>
+        <!-- <div class="show-footprint">Show Footprint</div> -->
+    </div>
+    <label for="time">Enter time at which you want to get location:</label>
+    <input id="time" type="datetime-local" name="sat-time" value="2023-08-15T16:30" />
+
+
+
+    <button id="fetch" type="button">Get Difference</button>
+
+    <div>
+        <p style="font-weight: bold;">Difference between Latest tle and 7 hours before tle</p>
+        <ul>
+        <li>Latitue Difference : <span id="lat"></span></li>
+        <li>Longitude Difference : <span id="lon"></span></li>
+        <li>Altitude Difference : <span id="alt"></span></li>
+        </ul>
+    </div>
+
+<script type="module">
+    document.getElementById('fetch').addEventListener('click', getDiff)
+    function getDiff(){
+        const box1 = document.getElementById('select_box1').value;
+        const box2 = document.getElementById('select_box2').value;
+        const time = document.getElementById('time').value;
+        const lat = document.getElementById('lat');
+        const lon = document.getElementById('lon');
+        const alt = document.getElementById('alt');
+        if (box1 && box2 && time){
+            var passed_data = {"tle1": box1, "tle2": box2, "time": time };
+            $.ajax({
+                url: "{% url 'compare' satellite.norad_id %}",
+                type: "GET",
+                dataType: "json",
+                data: passed_data,
+                success: (data) => {
+                lat.innerHTML = `${data.context.lat}`;
+                lon.innerHTML = `${data.context.lon}`;
+                alt.innerHTML = `${data.context.height}`;
+                },
+                error: (error) => {
+                console.log(error);
+                }
+            });
+        }
+    }
+</script>
+<style>
+    .select-panel{
+        margin-top: 20px;
+    }
+    .select-box{
+        margin: 10px 30px;
+        padding: 5px;
+    }
+    #fetch{
+        padding: 10px;
+        background-color: black;
+        color: white;
+    }
+
+</style>
+{% endblock content %}

@@ -97,8 +97,8 @@ class Satellite(models.Model):
 
 class TLE(models.Model):
     satellite = models.ForeignKey(to=Satellite, on_delete=models.CASCADE , editable=True)
-    tle = models.TextField("Satellite Tle" ,max_length=100, default='s', null=True, editable=True)
+    tle = models.TextField("Satellite Tle" ,max_length=300, default='s', null=True, editable=True)
     epoch_date = models.DateTimeField('Epoch Date', default=datetime(2000,2,2,2,2,2,2))
 
     def __str__(self):
-        return f"{self.satellite.name} on {self.date_added.date()} at {self.date_added.strftime('%H:%M:%S')}"
+        return f"{self.satellite.name} on {self.epoch_date.date()} at {self.epoch_date.strftime('%H:%M:%S')}"

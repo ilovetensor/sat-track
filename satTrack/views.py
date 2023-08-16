@@ -9,6 +9,9 @@ from django.views.generic.list import ListView
 
 from .models import Satellite, Sensor, TLE
 
+def about_page(request):
+    return render(request, 'about.html')
+
 def search_page(request):
     model = Satellite
     # all_objects = Satellite.objects.all()

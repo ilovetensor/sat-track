@@ -117,7 +117,7 @@
 
       const tle_compare_id = document.getElementById('select_box').value;
       console.log(tle_compare_id)
-     
+    
       var ps = viewer.entities.add({
         position: new Cesium.Cartesian3.fromDegrees(cur_loc.lon,cur_loc.lat ),
         point: {
@@ -327,7 +327,7 @@
       const satelliteUri = await Cesium.IonResource.fromAssetId(2099905);
       const satelliteEntity = viewer.entities.add({
       position: positionsOverTime,
-   
+      
       model: {
         uri: satelliteUri,
         minimumPixelSize: 50028,
@@ -399,7 +399,7 @@ var entity = viewer.entities.add({
   name: label,
     polyline : {
         positions : Cesium.Cartesian3.fromDegreesArrayHeights([longitude1, latitude1, height1,
-                                                               longitude2, latitude2, height2]),
+                                                              longitude2, latitude2, height2]),
         width : 1,
         followSurface : followSurface,
         material : Cesium.Color.YELLOW

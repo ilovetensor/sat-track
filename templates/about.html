@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<style>
+    header {
+        background-color: #007bff;
+        color: #fff;
+        text-align: center;
+        padding: 2rem 0;
+    }
+
+    header h1 {
+        font-size: 2rem;
+        margin: 0;
+    }
+
+    main {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+
+    .highlight ul {
+        list-style: disc;
+        margin-left: 1.5rem;
+    }
+
+    .team, .join {
+        margin-top: 2rem;
+    }
+
+    .highlight h2, .team h2, .join h2 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .highlight li {
+        margin-bottom: 1rem;
+    }
+
+    .team p, .join p {
+        line-height: 1.6;
+    }
+
+    footer {
+        text-align: center;
+        padding: 1rem;
+        background-color: #f5f5f5;
+        color: #888;
+    }
+</style>
+<header>
+    <h1>About the Project</h1>
+</header>
+<main>
+    <section class="highlight">
+        <h2>Project Highlights</h2>
+        <ul>
+            <li><strong>Satellite Position Calculation:</strong> Leveraging the skyfield and sgp4 libraries for accurate position calculations.</li>
+            <li><strong>3D Visualization with Cesium.js:</strong> Creating immersive 3D visualizations of satellite orbits.</li>
+            <li><strong>Machine Learning for Error Minimization:</strong> Enhancing accuracy through predictive models.</li>
+            <li><strong>Real-world Applications:</strong> Benefiting satellite tracking, astronomy, communication, and navigation.</li>
+            <li><strong>Educational Value:</strong> Serving as a learning resource for satellite technology, data analysis, and more.</li>
+        </ul>
+    </section>
+    <section class="team">
+        <h2>Project Team</h2>
+        <p>Our team comprises experts in software development, data analysis, machine learning, and aerospace engineering. We're dedicated to advancing satellite tracking technology.</p>
+    </section>
+    <section class="join">
+        <h2>Join Us</h2>
+        <p>Explore our project and engage with advanced libraries, innovative visualization, and machine learning. Join us in shaping the future of satellite tracking and visualization.</p>
+    </section>
+</main>
+<footer>
+    <p>&copy; 2023 SatTrack</p>
+</footer>
+{% endblock content %}

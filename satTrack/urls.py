@@ -9,7 +9,7 @@ urlpatterns = [
     path('sat/<int:norad_id>', sensor_list, name="detail_view"),
     path('sat/<int:norad_id>/compare', compare_tle, name='compare',),
     path('databuffer/<int:norad_id>', data_buffer, name='databuffer'),
-    path('sat/<int:norad_id>/<str:sensor_name>', detail_view, name='detail_view'),
+    path('sat/<int:norad_id>', detail_view, name='detail_view'),
     path('about', about_page, name="about_page"),
 ]
 

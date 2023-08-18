@@ -131,7 +131,7 @@
       };
 
       $.ajax({
-        url: "{% url 'data' satellite.norad_id %}",
+        url: "{% url 'sat' satellite.norad_id %}",
         type: "GET",
         dataType: "json",
         data: passed_data,
@@ -340,7 +340,7 @@
   }
 
 
-    {% comment %} =============================================================== {% endcomment %}
+    // {% comment %} =============================================================== {% endcomment %}
     
 
 var footPrintIntervalIDs = []
@@ -742,7 +742,7 @@ loadModel();
 //   console.log(globalFootPrintCollectionArray)
 // }
 // const st = setInterval( timeAndDate, 1000)
-    {% comment %} ============================================================= {% endcomment %}
+    // {% comment %} ============================================================= {% endcomment %}
     
     
 

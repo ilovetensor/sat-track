@@ -102,3 +102,16 @@ class TLE(models.Model):
 
     def __str__(self):
         return f"{self.satellite.name} on {self.epoch_date.date()} at {self.epoch_date.strftime('%H:%M:%S')}"
+
+
+"""
+for i in df.index:
+    ...:     tlef = df.loc[i, ['TLE_LINE1']] + "\n" + df.loc[i, ['TLE_LINE2']]
+    ...:     epoch = df.loc[i, 'EPOCH']
+    ...:
+    ...:     ep = datetime.fromisoformat(epoch.__str__())
+    ...:     tleobj = TLE(satellite=sat, tle=tlef, epoch_date=ep)
+    ...:     tleobj.save()
+    ...:     print(i)
+    
+"""

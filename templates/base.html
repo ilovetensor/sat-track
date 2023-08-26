@@ -1,12 +1,13 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <!-- Include the CesiumJS JavaScript and CSS files -->
-{% block head %}
+  {% block head %}
 
-{% endblock head %}
+  {% endblock head %}
   <script src="https://cdnjs.cloudflare.com/ajax/libs/satellite.js/4.0.0/satellite.min.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
   <link rel="shortcut icon" href="#">
@@ -15,121 +16,368 @@
   <link rel="stylesheet" href="about.css  ">
   <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 </head>
+
 <body>
 
   <div class="navbar">
+    <div class="logo">
+      <a href="{% url 'list_view' %}">
+        <img src="{% static 'isro.png' %}" alt="Logo">
+        <span>SatTrack</span>
+      </a>
+    </div>
+    <form class="search-container">
+      <div class="searchInput">
+        <input id="search" type="text" placeholder="Search..." autofocus required />
+        <button class="search-button" type="submit">Go</button>
+        <div class="resultBox">
+        </div>
+      </div>
+    </form>
     <ul class="nav-list">
-        <li class="logo"><h2><a href="{% url 'list_view' %}"><img style="width: 55px;height: 55px;" src="{% static 'isro.png' %}" alt=""><span style="font-size: 25px;">SatTrack</span></a></h1></li>
-          <li><a href="/" style="text-decoration: none;color: white;">Home</a></li>
-        <li>contact us</li>
-        <li><a href="{% url 'about_page' %} ">About </a></li>
+      <li><a href="/">Home </a></li>
+      <li><a href="{% url 'about_page' %}">About </a></li>
     </ul>
   </div>
   {% block content %}
-  
+
   {% endblock content %}
 </body>
 <style>
-  
-    body{
-      margin: 0px;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+    :root {
+        --rad: 15px;
+        --dur: .3s;
+        --color-dark: #2f2f2f;
+        --color-light: #fff;
+        --color-brand: #57bd84;
+        --font-fam: 'Lato', sans-serif;
+        --height: 5rem;
+        --btn-width: 75px;
+        --bez: cubic-bezier(0, 0, 0.43, 1.49);
     }
-    li{
-      text-decoration: none;
-      list-style: none;
-      cursor: pointer;
+  body {
+    padding: 0;
+    margin: 0px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  }
+
+  .navbar {
+    position: sticky;
+    top: 0px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.9);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    backdrop-filter: blur(15px);
+    z-index: 10;
+  }
+
+  .navbar .logo {
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+  }
+
+  .navbar .logo a {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+  }
+
+  .navbar .logo a img {
+    width: 55px;
+  }
+
+  .navbar .logo a span {
+    color: white;
+    padding-left: 10px;
+    font-size: 25px;
+    font-weight: 500;
+  }
+
+  .nav-list {
+    display: flex;
+    align-items: center;
+    padding-right: 15px;
+  }
+
+  .nav-list li {
+    padding: 1px 10px;
+    list-style: none;
+  }
+
+  .nav-list>li>a {
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .search-container {
+    height: 40px;
+    width: 350px;
+  }
+
+  .searchInput {
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+    position: relative;
+    box-shadow: 0px 1px 5px 3px rgba(0, 0, 0, 0.12);
+  }
+
+  .searchInput>input {
+    height: 100%;
+    width: 100%;
+    outline: none;
+    border: none;
+    border-radius: 15px;
+    font-size: 18px;
+    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+    padding: 0 0 0 8px;
+  }
+
+  .searchInput .search-button {
+    position: absolute;
+    top: 0;
+    right: -8px;
+    width: 45px;
+    font-weight: bold;
+    background: var(--color-brand);
+    border-radius: 0 15px 15px 0;
+    height: 100%;
+    font-size: 20px;
+    border: 0;
+    color: var(--color-dark);
+    cursor: pointer;
+  }
+
+  .searchInput>.resultBox {
+    padding: 0;
+    opacity: 0  ;
+    pointer-events: none;
+    max-height: 280px;
+    overflow-y: auto;
+    background-color: #efefef;
+  }
+
+  .searchInput.active .resultBox {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .resultBox li {
+    list-style: none;
+    padding: 8px 12px;
+    display: none;
+    width: 100%;
+    cursor: pointer;
+  }
+
+  .searchInput.active .resultBox li {
+    display: block;
+  }
+
+  .searchInput.active .resultBox li a {
+    text-decoration: none;
+    color: black;
+  }
+
+  .resultBox li:hover {
+    background: #efefef;
+  }
+
+/*   
+    form {
+        position: relative;
+        width: 30rem;
+        background: var(--color-brand);
+        border-radius: var(--rad);
     }
 
-    .logo a{
-      color: white;
-      text-decoration: none;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      gap: 10px;
+    input,
+    button {
+        height: 55px;
+
+        font-size: 20px;
+        border: 0;
+        color: var(--color-dark);
 
     }
-    
-    h2{
-      padding: 0px;
-      margin: 0px;
-      font-size: 40px;
-    }
-    .navbar{
-      position: sticky;
-      top: 0px;
-      width: 100%;
-    }
-    .nav-list{
-      display: flex;
-      justify-content: right;
-      text-align: center;
-      vertical-align: center;
-      padding: 20px 30px;
-      margin: 0px;
-      color: white;
-      background-color: rgba(0,0,0,0.9);
-      backdrop-filter: blur(15px);
-      z-index: 10;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    
-    }
-    
-    .nav-list li{
-      padding: 1px 10px;
-    
-      text-decoration: none;
-      list-style: none;
-      vertical-align: center;
-    }
-    .logo{
-      position: absolute;
-      top: 2px;
-      left: 14px;
-    }
-    #cesiumContainer{
-      background-color: aquamarine;
-      height: 400px;
-      width: 75%;
-      margin-top: 10px;
-      margin-left: 10px;
-    }
-    
-    .t1{
-      position: relative;
-      width: 400px;
-      padding: 30px;
-      font-size: 16px;
-    }
-    .main-block{
-      display: flex;
-      justify-content: left;
-    
-      
-    }
-    .sat-details{
-      padding: 20px;
-      margin-top: 10px;
-      
-    
-    }
-    .description{
-      padding: 10px
-    }
-    .t2{
-      padding: 10px;
-      font-size: 15px;
-    }
-    .satellite{
-      width: 1200px;
-      margin: 30px 50px;
 
+    input[type="search"] {
+        outline: 0;
+        width: 100%;
+        background: var(--color-light);
+        padding: 0 1.6rem;
+        border-radius: var(--rad);
+        appearance: none;
+        transition: all var(--dur) var(--bez);
+        transition-property: width, border-radius;
+        z-index: 1;
+        position: relative;
     }
-    .satellite td, .satellite th{
-      margin: 0px;
-      border-bottom: 1px solid black;
-      text-align: center;
+
+    button {
+        display: none;
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 75px;
+        font-weight: bold;
+        background: var(--color-brand);
+        border-radius: 0 15px 15px 0;
     }
-    </style>
+
+    input:not(:placeholder-shown) {
+        border-radius: var(--rad) 0 0 var(--rad);
+        width: calc(100% - var(--btn-width));
+
+        +button {
+            display: block;
+        }
+    }  */
+
+  #cesiumContainer {
+    background-color: aquamarine;
+    height: 400px;
+    width: 75%;
+    margin-top: 10px;
+    margin-left: 10px;
+  }
+
+  .t1 {
+    position: relative;
+    width: 400px;
+    padding: 30px;
+    font-size: 16px;
+  }
+
+  .main-block {
+    display: flex;
+    justify-content: left;
+
+
+  }
+
+  .sat-details {
+    padding: 20px;
+    margin-top: 10px;
+
+
+  }
+
+  .description {
+    padding: 10px
+  }
+
+  .t2 {
+    padding: 10px;
+    font-size: 15px;
+  }
+
+  .satellite {
+    width: 1200px;
+    margin: 30px 50px;
+
+  }
+
+  .satellite td,
+  .satellite th {
+    margin: 0px;
+    border-bottom: 1px solid black;
+    text-align: center;
+  }
+</style>
+<script type='module'>
+
+  var swiper = new Swiper(".mySwiper", {
+    spaceBetween: 30,
+    centeredSlides: true,
+    autoplay: {
+      delay: 2500,
+      disableOnInteraction: false,
+    },
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+    },
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+  });
+  const searchInput = document.querySelector(".searchInput");
+  const input = searchInput.querySelector("input");
+  const resultBox = searchInput.querySelector(".resultBox");
+  const icon = searchInput.querySelector(".icon");
+  let linkTag = searchInput.querySelector("a");
+  let webLink;
+
+  // if user press any key and release
+  let suggestions;
+  input.onkeyup = (e) => {
+    let userData = e.target.value; //user enetered data
+    let emptyArray = [];
+    if (userData) {
+      let data1 = searchWord(userData);
+      let suggestions = data1['sat_list'];
+      let norad_list = data1['id_dict'];
+
+      emptyArray = suggestions;
+      emptyArray = emptyArray.map((data) => {
+        // passing return data inside li tag
+        let tag1 = "{% url 'list_view' %}";
+        let url = tag1 + `/${norad_list[data]}`;
+
+        return data = `<li><a href = "${url}">` + data + `</a></li>`;
+      });
+
+      searchInput.classList.add("active"); //show autocomplete box
+      showSuggestions(emptyArray);
+      let allList = resultBox.querySelectorAll("li");
+      for (let i = 0; i < allList.length; i++) {
+        //adding onclick attribute in all li tag
+        allList[i].setAttribute("onclick", "select(this)");
+      }
+    } else {
+      searchInput.classList.remove("active"); //hide autocomplete box
+    }
+  };
+
+  function searchWord(word) {
+
+    let suggestions;
+
+    $.ajax({
+      url: "{% url 'search_word' %}",
+      type: "GET",
+      async: false,
+      dataType: "json",
+      data: { 'word': word },
+      success: (data) => {
+        suggestions = data;
+      }
+    });
+    return (suggestions);
+  }
+
+  function showSuggestions(list) {
+    let listData;
+    if (!list.length) {
+      userValue = inputBox.value;
+      listData = '<li>' + userValue + '</li>';
+    } else {
+      listData = list.join("");
+    }
+    resultBox.innerHTML = listData;
+  }
+  function select(e) {
+    input.value = e.innerHTML;
+  }
+</script>
+
 </html>

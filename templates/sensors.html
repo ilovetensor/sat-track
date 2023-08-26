@@ -31,8 +31,8 @@
       <h4>Latest Tle(Two line element) :</h4>
       <div class="tle">{{ satellite.tle_now }}</div>
       <div class="last-fetch"><b>Last fetch date: </b> {{ satellite.last_tle_update }}</div>
-      <button id="fetch_tle" type="button"> Fetch Again 🐶</button>
-      <button onclick="compare_tle()" > Compare Prev. TLE </button>
+      <button id="fetch_tle" type="button" class="buton"> Fetch Again 🐶</button>
+      <button class="buton" onclick="compare_tle()" > Compare Prev. TLE </button>
     </div>
     <div class="sensors">
       <h4>Available Sensors :</h6>
@@ -62,7 +62,7 @@
           {% endfor %}
 
         </table>
-        <button onclick="get_tracking()">Track 🚀</button>
+        <button class="buton" onclick="get_tracking()">Track 🚀</button>
 
     </div>
   </div>
@@ -144,7 +144,7 @@
     flex: 0.7;
   }
 
-  button {
+  .buton {
     margin: 10px;
     background-color: #ffc600;
     color: rgb(0, 9, 86);
@@ -155,13 +155,13 @@
     cursor: pointer;
   }
 
-  button:hover {
+  .buton:hover {
     color: black;
     background-color: #ffcd1a;
 
   }
 
-  button:active {
+  .buton:active {
     scale: 0.99;
   }
 

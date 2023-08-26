@@ -2,77 +2,84 @@
 {% load static %}
 {% block content %}
 <style>
-    header {
-        background-color: #007bff;
-        color: #fff;
-        text-align: center;
-        padding: 2rem 0;
-    }
-
-    header h1 {
-        font-size: 2rem;
+    * {
         margin: 0;
+        padding: 0;
     }
 
-    main {
-        max-width: 800px;
-        margin: 0 auto;
-        padding: 2rem;
-    }
-
-    .highlight ul {
-        list-style: disc;
-        margin-left: 1.5rem;
-    }
-
-    .team, .join {
-        margin-top: 2rem;
-    }
-
-    .highlight h2, .team h2, .join h2 {
-        font-size: 1.5rem;
-        margin-bottom: 1rem;
-    }
-
-    .highlight li {
-        margin-bottom: 1rem;
-    }
-
-    .team p, .join p {
-        line-height: 1.6;
-    }
-
-    footer {
+    .heading {
+        font-size: 80px;
         text-align: center;
-        padding: 1rem;
-        background-color: #f5f5f5;
-        color: #888;
+        font-weight: 900;
+        background-color: rgb(0, 140, 255);
+        color: #fff;
+        padding: 5px 0;
+    }
+
+    .about-body {
+        max-width: 1200px;
+        margin: 50px auto;
+    }
+
+    .first-para {
+        font-size: 20px;
+        margin: 15px 0;
+    }
+
+    .second-para {
+        font-size: 18px;
+        margin: 10px 0;
+    }
+
+    .third-para {
+        font-size: 18px;
+        margin: 10px 0;
+    }
+
+    .fourth-para {
+        font-size: 18px;
+        margin: 10px 0;
     }
 </style>
-<header>
-    <h1>About the Project</h1>
-</header>
+
 <main>
-    <section class="highlight">
-        <h2>Project Highlights</h2>
-        <ul>
-            <li><strong>Satellite Position Calculation:</strong> Leveraging the skyfield and sgp4 libraries for accurate position calculations.</li>
-            <li><strong>3D Visualization with Cesium.js:</strong> Creating immersive 3D visualizations of satellite orbits.</li>
-            <li><strong>Machine Learning for Error Minimization:</strong> Enhancing accuracy through predictive models.</li>
-            <li><strong>Real-world Applications:</strong> Benefiting satellite tracking, astronomy, communication, and navigation.</li>
-            <li><strong>Educational Value:</strong> Serving as a learning resource for satellite technology, data analysis, and more.</li>
-        </ul>
-    </section>
-    <section class="team">
-        <h2></h2>
-        <p></p>
-    </section>
-    <section class="join">
-        <h2></h2>
-        <p></p>
-    </section>
+    <div>
+        <h1 class="heading">About <span>SatTrack</span></h1>
+        <div class="about-body">
+            <p class="first-para">This Web Application take the Input from User and Database for a desired Indian
+                satellite and based on
+                the inputs
+                specified by the user, project the orbital positions on the
+                Earth’s surface to generate sensor footprint.</p>
+
+            <p class="second-para">Following are the inputs which can be provided by the user to the application to
+                guide them
+                for determining the imaging opportunities. <br>
+                1) Coordinates of point of interest in terms of Latitude and Longitude on Earth. <br>
+                2) Sensor within the payload. <br>
+                3) Possible swath which can be imaged with the particular sensor. <br>
+                4) Tilt of the satellite within the known agility of the platform. <br>
+                5) Orbital parameters like semi-major axis, eccentricity, inclination, longitude of ascending node,
+                argument of perigee and true anomaly based on the publicly available information in the form
+                of two line elements (TLE)</p> <br>
+            <h3>Objective : </h3>
+            <p class="third-para">Objective is of finding the possibility or predict the time of imaging a particular
+                object/place (Lat-Long) on Earth by an Earth observing satellite with given sensor specifications, orbit
+                and attitude definitions under various Orbit Preturbations</p>
+            <h3>Background : </h3>
+            <p class="fourth-para">Low Earth observation satellites orbits the Earth surface at an altitude of around
+                300
+                to 1000km in Sun synchronous polar orbit. The sensors are placed on the satellite platform to take
+                pictures of the Earth’s surface. Users are interested in the opportunities when their area of interest
+                is
+                going to be imaged in order to meet their application requirement. This
+                software based application enable them to know the imaging opportunities apriori for their
+                planning. Agile satellite platforms have the capability to image certain area with tilts which is
+                defined
+                by revisit constraints. This application should be able to guide the user for imaging of their
+                area of interest taking into account the tilt requirements. This information can be shared by them to
+                satellite pass programming persons.</p>
+        </div>
+    </div>
 </main>
-<footer>
-    <p>&copy; 2023 SatTrack</p>
-</footer>
 {% endblock content %}

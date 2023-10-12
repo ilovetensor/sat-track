@@ -68,22 +68,22 @@ class Satellite(models.Model):
         for obj in query_set[:items]:
             obj.delete()
 
-    # def save_new_tle(self):
-    #     query_set = self.tle_set.all()
-    #     total_tles = len(query_set)
-    #     if total_tles >= self.max_saved_tle:
-    #         items = total_tles - self.max_saved_tle+1
-    #         self.remove_from_set(query_set, items)
+    def save_new_tle(self):
+        # query_set = self.tle_set.all()
+        # total_tles = len(query_set)
+        # if total_tles >= self.max_saved_tle:
+        #     items = total_tles - self.max_saved_tle+1
+        #     self.remove_from_set(query_set, items)
 
-    #     tle_fetched = get_tle_from_n2yo(self.norad_id)
-    #     if tle_fetched == self.tle_now:
-    #         print("TLE NOT UPDATED NOW !")
-    #         return
-    #     else:
-    #         object = TLE(satellite=self, tle = tle_fetched, date_added = datetime.now())
-    #         object.save()
-    #         self.tle_now = tle_fetched
-    #         self.last_tle_update = datetime.now()
+        tle_fetched = get_tle_from_n2yo(self.norad_id)
+        if tle_fetched == self.tle_now:
+            print("TLE NOT UPDATED NOW !")
+            return
+        else:
+            # object = TLE(satellite=self, tle = tle_fetched, epoch_date = datetime.now())
+            # object.save()
+            self.tle_now = tle_fetched
+            self.last_tle_update = datetime.now()
         
 
     def __str__(self):
@@ -91,7 +91,7 @@ class Satellite(models.Model):
     
     
     def save(self, *args, **kwargs):
-        # self.save_new_tle()
+        self.save_new_tle()
         super().save(*args, **kwargs)
     
 

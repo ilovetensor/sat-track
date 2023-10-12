@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, redirect
 from django.http import JsonResponse
 from sgp4.api import Satrec 
 from sgp4.api import jday 
@@ -6,7 +6,7 @@ import pandas as pd
 from .extract_data import convert, get_live_data, data_over_time, get_position
 from django.utils import timezone
 from django.views.generic.list import ListView
-
+from django.urls import reverse
 from .models import Satellite, Sensor, TLE
 
 def about_page(request):
@@ -117,6 +117,12 @@ def sensor_list(request, norad_id):
 
     context = { 'satellite': satellite ,'sensors': sensors, 'data': save_dict}
     return render(request, 'sensors.html', context)
+
+
+def fetch_latest(request, norad_id):
+    satellite = Satellite.objects.get(pk=norad_id)
+    satellite.save()
+    return redirect(reverse('detail_view', kwargs={'norad_id':norad_id}))
 
 
 def compare_tle(request, norad_id):

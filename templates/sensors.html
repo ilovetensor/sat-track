@@ -31,7 +31,7 @@
       <h4>Latest Tle(Two line element) :</h4>
       <div class="tle">{{ satellite.tle_now }}</div>
       <div class="last-fetch"><b>Last fetch date: </b> {{ satellite.last_tle_update }}</div>
-      <button id="fetch_tle" type="button" class="buton"> Fetch Again 🐶</button>
+      <button id="fetch_tle" type="button" onclick="fetch_latest()" class="buton"> Fetch Again </button>
       <button class="buton" onclick="compare_tle()" > Compare Prev. TLE </button>
     </div>
     <div class="sensors">
@@ -86,6 +86,9 @@
       }
     }
 
+  }
+  function fetch_latest(){
+    window.location.href = "{% url 'fetch' satellite.norad_id %}";
   }
 </script>
 

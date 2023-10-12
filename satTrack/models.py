@@ -1,7 +1,7 @@
 from django.db import models
 
 # Create your models here.
-from datetime import datetime
+from datetime import datetime, timedelta
 import requests
 
 api_key = 'M8PZCZ-5ELM7M-DE5LRK-531A'
@@ -14,7 +14,15 @@ def get_tle_from_n2yo(id):
         params=params
     ).json()
     last_tle_update = datetime.now().date()
+    print(r)
     return (r['tle'])
+
+def datetime_from_epoch(day_of_year):
+    year = int(day_of_year[:2])
+    day_of_year = float(day_of_year[2:])
+    date = datetime(year, 1, 1) + timedelta(days=day_of_year - 1)
+    time = timedelta(seconds=(day_of_year % 1) * 24 * 60 * 60)
+    return date + time
 
 STATUS_CHOICES = (( 'active','ACTIVE'),
                   ('not_tracked','NOT TRACKED'))
@@ -79,11 +87,15 @@ class Satellite(models.Model):
         if tle_fetched == self.tle_now:
             print("TLE NOT UPDATED NOW !")
             return
-        else:
+        else: 
             # object = TLE(satellite=self, tle = tle_fetched, epoch_date = datetime.now())
-            # object.save()
             self.tle_now = tle_fetched
             self.last_tle_update = datetime.now()
+            epoch_date = datetime_from_epoch(tle_fetched[18:32])
+            object = TLE(satellite=self, tle = tle_fetched, epoch_date = epoch_date)
+            object.save()
+
+
         
 
     def __str__(self):
